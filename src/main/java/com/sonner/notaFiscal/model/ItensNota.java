@@ -18,6 +18,7 @@ public class ItensNota {
     private String ordemNota;
 
     @ManyToOne
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
     @Column(name = "quantidade_produto")
