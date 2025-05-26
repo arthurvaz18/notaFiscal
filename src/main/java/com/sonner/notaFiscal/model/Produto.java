@@ -1,6 +1,7 @@
 package com.sonner.notaFiscal.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "Produto")
@@ -14,12 +15,12 @@ public class Produto {
     private String codigoProduto;
 
     @Column(name = "valo_produto", precision = 18, scale = 2, nullable = false)
-    private String valorProduto;
+    private BigDecimal valorProduto;
 
     @Column(name = "descricao_produto", unique = true, nullable = false)
     private String descricaoProduto;
 
-    //Getters and Setters
+    ///////////////////Getters and Setters//////////////////////////////////////////////////
 
     public Integer getId() {
         return id;
@@ -37,11 +38,11 @@ public class Produto {
         this.codigoProduto = codigoProduto;
     }
 
-    public String getValorProduto() {
+    public BigDecimal getValorProduto() {
         return valorProduto;
     }
 
-    public void setValorProduto(String valorProduto) {
+    public void setValorProduto(BigDecimal valorProduto) {
         this.valorProduto = valorProduto;
     }
 
