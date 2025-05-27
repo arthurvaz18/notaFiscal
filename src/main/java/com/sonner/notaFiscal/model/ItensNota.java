@@ -30,7 +30,22 @@ public class ItensNota {
     @JoinColumn(name = "nota_fiscal_id", nullable = false)
     private NotaFiscal notaFiscal;
 
-    //Getters and Setters
+    ///////////////////Construtor//////////////////////////////////////////////////
+
+    public ItensNota() {
+    }
+
+    public ItensNota(Integer id, String codigoItens, String ordemNota, Produto produto, Integer quantidadeProduto, BigDecimal valorTotal, NotaFiscal notaFiscal) {
+        this.id = id;
+        this.codigoItens = codigoItens;
+        this.ordemNota = ordemNota;
+        this.produto = produto;
+        this.quantidadeProduto = quantidadeProduto;
+        this.valorTotal = valorTotal;
+        this.notaFiscal = notaFiscal;
+    }
+
+    ///////////////////Getters and Setters//////////////////////////////////////////////////
 
     public Integer getId() {
         return id;

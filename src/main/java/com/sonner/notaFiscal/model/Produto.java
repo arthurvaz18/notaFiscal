@@ -20,6 +20,18 @@ public class Produto {
     @Column(name = "descricao_produto", unique = true, nullable = false)
     private String descricaoProduto;
 
+    ///////////////////Construtor//////////////////////////////////////////////////
+
+    public Produto() {
+    }
+
+    public Produto(Integer id, String codigoProduto, BigDecimal valorProduto, String descricaoProduto) {
+        this.id = id;
+        this.codigoProduto = codigoProduto;
+        this.valorProduto = valorProduto;
+        this.descricaoProduto = descricaoProduto;
+    }
+
     ///////////////////Getters and Setters//////////////////////////////////////////////////
 
     public Integer getId() {

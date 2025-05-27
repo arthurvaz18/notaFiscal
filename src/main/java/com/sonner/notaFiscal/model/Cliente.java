@@ -17,7 +17,18 @@ public class Cliente {
     @Column(name = "nome_cliente", unique = true, nullable = false)
     private String nomeCliente;
 
-    //Getters and Setters
+    ///////////////////Construtor//////////////////////////////////////////////////
+
+    public Cliente() {
+    }
+
+    public Cliente(Integer id, String codigoCliente, String nomeCliente) {
+        this.id = id;
+        this.codigoCliente = codigoCliente;
+        this.nomeCliente = nomeCliente;
+    }
+
+    ///////////////////Getters and Setters//////////////////////////////////////////////////
 
     public Integer getId() {
         return id;
