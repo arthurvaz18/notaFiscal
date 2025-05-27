@@ -3,7 +3,6 @@ package com.sonner.notaFiscal.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "NotaFiscal")
@@ -17,18 +16,12 @@ public class NotaFiscal {
     private LocalDate dataNotaFiscal;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Column(name = "valor", precision = 18, scale = 2, nullable = false)
     private BigDecimal valorNotaFiscal;
 
-    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL)
-    private List<ItensNota> itens;
-
-
     //Getters and Setters
-
 
     public Integer getId() {
         return id;
@@ -60,13 +53,5 @@ public class NotaFiscal {
 
     public void setValorNotaFiscal(BigDecimal valorNotaFiscal) {
         this.valorNotaFiscal = valorNotaFiscal;
-    }
-
-    public List<ItensNota> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItensNota> itens) {
-        this.itens = itens;
     }
 }

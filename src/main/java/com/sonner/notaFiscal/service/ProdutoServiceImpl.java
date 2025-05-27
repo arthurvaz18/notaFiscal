@@ -42,20 +42,36 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public List<Produto> pesquisarProduto(String codigoProduto, BigDecimal valorProduto, String descricaoProduto) {
 
-        if(codigoProduto == null && valorProduto == null && descricaoProduto == null) {
+        if (codigoProduto != null && valorProduto != null && descricaoProduto != null) {
             return produtoRepository.findByCodigoProdutoAndValorProdutoAndDescricaoProduto(codigoProduto, valorProduto, descricaoProduto);
         }
-        else if (codigoProduto != null) {
+
+        if (codigoProduto != null && valorProduto != null) {
+            return produtoRepository.findByCodigoProdutoAndValorProduto(codigoProduto, valorProduto);
+        }
+
+        if (codigoProduto != null && descricaoProduto != null) {
+            return produtoRepository.findByCodigoProdutoAndDescricaoProduto(codigoProduto, descricaoProduto);
+        }
+
+        if (valorProduto != null && descricaoProduto != null) {
+            return produtoRepository.findByValorProdutoAndDescricaoProduto(valorProduto, descricaoProduto);
+        }
+
+        if (codigoProduto != null) {
             return produtoRepository.findByCodigoProduto(codigoProduto);
         }
-        else if(valorProduto != null) {
+
+        if (valorProduto != null) {
             return produtoRepository.findByValorProduto(valorProduto);
         }
-        else if(descricaoProduto != null) {
+
+        if (descricaoProduto != null) {
             return produtoRepository.findByDescricaoProduto(descricaoProduto);
-        } else {
-            return produtoRepository.findAll();
         }
+
+        return produtoRepository.findAll();
     }
+
 
 }
