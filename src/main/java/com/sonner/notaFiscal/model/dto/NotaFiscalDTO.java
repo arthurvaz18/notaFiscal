@@ -1,15 +1,12 @@
 package com.sonner.notaFiscal.model.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public class NotaFiscalDTO {
-
     private Integer idCliente;
-    private LocalDateTime dataNotaFiscal;
+    private LocalDate dataNotaFiscal;
     private List<ItensNotaDTO> itensNotaDTOList;
-
-    ///////////////////Getters and Setters//////////////////////////////////////////////////
 
     public Integer getIdCliente() {
         return idCliente;
@@ -19,11 +16,11 @@ public class NotaFiscalDTO {
         this.idCliente = idCliente;
     }
 
-    public LocalDateTime getDataNotaFiscal() {
+    public LocalDate getDataNotaFiscal() {
         return dataNotaFiscal;
     }
 
-    public void setDataNotaFiscal(LocalDateTime dataNotaFiscal) {
+    public void setDataNotaFiscal(LocalDate dataNotaFiscal) {
         this.dataNotaFiscal = dataNotaFiscal;
     }
 
@@ -33,5 +30,46 @@ public class NotaFiscalDTO {
 
     public void setItensNotaDTOList(List<ItensNotaDTO> itensNotaDTOList) {
         this.itensNotaDTOList = itensNotaDTOList;
+    }
+
+    public static class ItensNotaDTO {
+        private String codigoItens;
+        private String ordemNota;
+        private Integer produtoId;
+        private Integer quantidadeProduto;
+
+        public String getCodigoItens() {
+            return codigoItens;
+        }
+
+        public void setCodigoItens(String codigoItens) {
+            this.codigoItens = codigoItens;
+        }
+
+        public String getOrdemNota() {
+            return ordemNota;
+        }
+
+        public void setOrdemNota(String ordemNota) {
+            this.ordemNota = ordemNota;
+        }
+
+        public Integer getProdutoId() {
+            return produtoId;
+        }
+
+        public void setProdutoId(Integer produtoId) {
+            this.produtoId = produtoId;
+        }
+
+        public Integer getQuantidadeProduto() {
+            return quantidadeProduto;
+        }
+
+        public void setQuantidadeProduto(Integer quantidadeProduto) {
+            this.quantidadeProduto = quantidadeProduto;
+        }
+
+
     }
 }
