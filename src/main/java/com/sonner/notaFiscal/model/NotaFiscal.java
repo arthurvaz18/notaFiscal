@@ -22,7 +22,7 @@ public class NotaFiscal {
     @Column(name = "valor", precision = 18, scale = 2, nullable = false)
     private BigDecimal valorNotaFiscal;
 
-    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ItensNota> itens;
 
     ///////////////////Construtor//////////////////////////////////////////////////

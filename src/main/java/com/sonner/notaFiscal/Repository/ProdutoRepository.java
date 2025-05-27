@@ -10,5 +10,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Integer> {
     List<Produto> findByCodigoProduto(String codigoProduto);
     List<Produto> findByValorProduto(BigDecimal valorProduto);
     List<Produto> findByDescricaoProduto(String descricaoProduto);
+    List<Produto> findByCodigoProdutoAndDescricaoProduto(String codigoProduto, String descricaoProduto);
+    List<Produto> findByCodigoProdutoAndValorProduto(String codigoProduto, BigDecimal valorProduto);
+    List<Produto> findByValorProdutoAndDescricaoProduto(BigDecimal valorProduto, String descricaoProduto);
     List<Produto> findByCodigoProdutoAndValorProdutoAndDescricaoProduto(String codigoCliente, BigDecimal valorProduto, String descricaoProduto);
 }

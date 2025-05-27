@@ -17,7 +17,7 @@ public class ItensNota {
     @Column(name = "ordem_nota",nullable = false)
     private String ordemNota;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Produto produto;
 
     @Column(name = "quantidade_produto")
@@ -26,7 +26,7 @@ public class ItensNota {
     @Column(name = "valorTotal", precision = 18, scale = 2, nullable = false)
     private BigDecimal valorTotal;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nota_fiscal_id", nullable = false)
     private NotaFiscal notaFiscal;
 
