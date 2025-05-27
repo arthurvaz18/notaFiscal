@@ -30,7 +30,7 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
                     item.setValorTotal(valorTotal);
                     item.setNotaFiscal(notaFiscal);
                     return valorTotal;
-        })
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return notaFiscalRepository.save(notaFiscal);
@@ -88,7 +88,4 @@ public class NotaFiscalServiceImpl implements NotaFiscalService {
     public void deletarNotaFiscal(NotaFiscal notaFiscal) {
         notaFiscalRepository.delete(notaFiscal);
     }
-
-
-
 }

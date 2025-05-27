@@ -1,7 +1,6 @@
 package com.sonner.notaFiscal.resource;
 
 import com.sonner.notaFiscal.model.Cliente;
-import com.sonner.notaFiscal.model.ItensNota;
 import com.sonner.notaFiscal.model.NotaFiscal;
 import com.sonner.notaFiscal.service.NotaFiscalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.math.BigDecimal;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
