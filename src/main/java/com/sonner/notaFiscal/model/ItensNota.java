@@ -1,43 +1,38 @@
 package com.sonner.notaFiscal.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "ItensNota")
 public class ItensNota {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_itens_nota", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "codigo_itens", unique = true, nullable = false)
-    private String codigoItens;
-
-    @Column(name = "ordem_nota",nullable = false)
     private String ordemNota;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
     private Produto produto;
 
-    @Column(name = "quantidade_produto")
     private Integer quantidadeProduto;
 
-    @Column(name = "valorTotal", precision = 18, scale = 2, nullable = false)
     private BigDecimal valorTotal;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nota_fiscal_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "nota_fiscal_id")
+    @JsonBackReference
     private NotaFiscal notaFiscal;
-
-    ///////////////////Construtor//////////////////////////////////////////////////
 
     public ItensNota() {
     }
 
-    public ItensNota(Integer id, String codigoItens, String ordemNota, Produto produto, Integer quantidadeProduto, BigDecimal valorTotal, NotaFiscal notaFiscal) {
+    public ItensNota(Integer id, String ordemNota, Produto produto, Integer quantidadeProduto, BigDecimal valorTotal, NotaFiscal notaFiscal) {
         this.id = id;
-        this.codigoItens = codigoItens;
         this.ordemNota = ordemNota;
         this.produto = produto;
         this.quantidadeProduto = quantidadeProduto;
@@ -45,22 +40,12 @@ public class ItensNota {
         this.notaFiscal = notaFiscal;
     }
 
-    ///////////////////Getters and Setters//////////////////////////////////////////////////
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getCodigoItens() {
-        return codigoItens;
-    }
-
-    public void setCodigoItens(String codigoItens) {
-        this.codigoItens = codigoItens;
     }
 
     public String getOrdemNota() {

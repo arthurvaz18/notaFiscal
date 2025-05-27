@@ -1,34 +1,37 @@
 package com.sonner.notaFiscal.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "NotaFiscal")
+@Table(name = "nota_fiscal")
 public class NotaFiscal {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_nota_fiscal", unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_nota_fiscal")
     private Integer id;
 
-    @Column(name = "data_nota_fiscal", nullable = false)
+    @Column(name = "data_nota_fiscal")
     private LocalDate dataNotaFiscal;
 
     @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @Column(name = "valor", precision = 18, scale = 2, nullable = false)
+    @Column(name = "valor_nota_fiscal")
     private BigDecimal valorNotaFiscal;
 
-    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ItensNota> itens;
+    @OneToMany(mappedBy = "notaFiscal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ItensNota> itens = new ArrayList<>();
 
-    ///////////////////Construtor//////////////////////////////////////////////////
-
-    public NotaFiscal() {
-    }
+    public NotaFiscal() {}
 
     public NotaFiscal(Integer id, LocalDate dataNotaFiscal, Cliente cliente, BigDecimal valorNotaFiscal, List<ItensNota> itens) {
         this.id = id;
@@ -37,8 +40,6 @@ public class NotaFiscal {
         this.valorNotaFiscal = valorNotaFiscal;
         this.itens = itens;
     }
-
-    ///////////////////Getters and Setters//////////////////////////////////////////////////
 
     public Integer getId() {
         return id;
@@ -78,5 +79,10 @@ public class NotaFiscal {
 
     public void setItens(List<ItensNota> itens) {
         this.itens = itens;
+    }
+
+    public void addItem(ItensNota item) {
+        item.setNotaFiscal(this);
+        this.itens.add(item);
     }
 }
