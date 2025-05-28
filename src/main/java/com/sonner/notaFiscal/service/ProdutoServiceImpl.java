@@ -40,37 +40,19 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Produto> pesquisarProduto(String codigoProduto, BigDecimal valorProduto, String descricaoProduto) {
+    public List<Produto> pesquisarProduto(Integer id, String codigoProduto, String descricaoProduto) {
 
-        if (codigoProduto != null && valorProduto != null && descricaoProduto != null) {
-            return produtoRepository.findByCodigoProdutoAndValorProdutoAndDescricaoProduto(codigoProduto, valorProduto, descricaoProduto);
-        }
-
-        if (codigoProduto != null && valorProduto != null) {
-            return produtoRepository.findByCodigoProdutoAndValorProduto(codigoProduto, valorProduto);
-        }
-
-        if (codigoProduto != null && descricaoProduto != null) {
-            return produtoRepository.findByCodigoProdutoAndDescricaoProduto(codigoProduto, descricaoProduto);
-        }
-
-        if (valorProduto != null && descricaoProduto != null) {
-            return produtoRepository.findByValorProdutoAndDescricaoProduto(valorProduto, descricaoProduto);
-        }
-
-        if (codigoProduto != null) {
+        if (id != null && codigoProduto != null && descricaoProduto != null) {
+            return produtoRepository.findByIdAndCodigoProdutoAndDescricaoProduto(id,codigoProduto, descricaoProduto);
+        } else if (codigoProduto != null) {
             return produtoRepository.findByCodigoProduto(codigoProduto);
-        }
-
-        if (valorProduto != null) {
-            return produtoRepository.findByValorProduto(valorProduto);
-        }
-
-        if (descricaoProduto != null) {
+        }else if (descricaoProduto != null) {
             return produtoRepository.findByDescricaoProduto(descricaoProduto);
+        } else if (id != null) {
+            return produtoRepository.findByIdOrCodigoProduto(id, codigoProduto);
+        }else {
+            return produtoRepository.findAll();
         }
-
-        return produtoRepository.findAll();
     }
 
 

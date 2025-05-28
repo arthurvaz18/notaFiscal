@@ -28,8 +28,8 @@ public class NotaFiscalResource {
             return ResponseEntity.ok(notas);
         }
 
-        @GetMapping("/{id}")
-        public ResponseEntity<NotaFiscal> buscarNotaPorId(@PathVariable Integer id) {
+        @GetMapping("{id}")
+        public ResponseEntity<NotaFiscal> buscarNotaPorId(@PathVariable("id") Integer id) {
             return notaFiscalService.buscarNotaPorId(id)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());

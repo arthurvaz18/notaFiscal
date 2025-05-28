@@ -38,14 +38,16 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.delete(cliente);
     }
 
-    public List<Cliente> pesquisarCliente(String nomeCliente, String codigoCliente) {
+    public List<Cliente> pesquisarCliente(Integer id, String nomeCliente, String codigoCliente) {
 
-        if ( nomeCliente != null && codigoCliente != null) {
-            return clienteRepository.findByNomeClienteAndCodigoCliente(nomeCliente, codigoCliente);
+        if ( id != null && nomeCliente != null && codigoCliente != null) {
+            return clienteRepository.findByIdAndNomeClienteAndCodigoCliente(id, nomeCliente, codigoCliente);
         } else if (nomeCliente != null){
             return clienteRepository.findByNomeCliente(nomeCliente);
         } else if (codigoCliente != null){
             return clienteRepository.findByCodigoCliente(codigoCliente);
+        } else if (id != null) {
+            return clienteRepository.findByIdOrNomeCliente(id, nomeCliente);/////Gambiarra
         } else {
             return clienteRepository.findAll();
         }

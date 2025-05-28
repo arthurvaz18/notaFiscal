@@ -81,9 +81,10 @@ public class ClienteResource {
 
     @GetMapping
     public ResponseEntity<List<Cliente>> pesquisarCliente(
+            @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "nomeCliente", required = false) String nomeCliente,
             @RequestParam(value = "codigoCliente", required = false) String codigoCliente) {
-        List<Cliente> clientesEncontrados = clienteService.pesquisarCliente(nomeCliente, codigoCliente);
+        List<Cliente> clientesEncontrados = clienteService.pesquisarCliente(id, nomeCliente, codigoCliente);
         return ResponseEntity.ok(clientesEncontrados);
     }
 }

@@ -16,5 +16,5 @@ public interface ProdutoService {
 
     void deletar(Produto produto);
 
-    List<Produto> pesquisarProduto(String codigoProduto, BigDecimal valorProduto, String descricaoProduto);
+    List<Produto> pesquisarProduto(Integer id, String codigoProduto, String descricaoProduto);
 }

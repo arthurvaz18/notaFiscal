@@ -15,5 +15,5 @@ public interface ClienteService {
 
     void deletar(Cliente cliente);
 
-    List<Cliente> pesquisarCliente(String nomeCliente, String codigoCliente);
+    List<Cliente> pesquisarCliente(Integer id, String nomeCliente, String codigoCliente);
 }

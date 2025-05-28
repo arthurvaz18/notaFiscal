@@ -79,11 +79,11 @@ public class ProdutoResource {
 
     @GetMapping
     ResponseEntity<List<Produto>> listar(
+            @RequestParam(value = "id", required = false) Integer id,
             @RequestParam(value = "codigoProduto", required = false) String codigoProduto,
-            @RequestParam(value = "valorProduto", required = false) BigDecimal valorProduto,
             @RequestParam(value = "descricaoProduto", required = false) String  descricaoProduto
     ) {
-        List<Produto> produtosEncontrados = produtoService.pesquisarProduto(codigoProduto, valorProduto, descricaoProduto);
+        List<Produto> produtosEncontrados = produtoService.pesquisarProduto(id, codigoProduto, descricaoProduto);
         return ResponseEntity.ok(produtosEncontrados);
     }
 
