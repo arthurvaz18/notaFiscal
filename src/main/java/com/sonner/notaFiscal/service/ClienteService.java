@@ -11,7 +11,7 @@ public interface ClienteService {
 
     Optional<Cliente> buscarCliente(Integer id);
 
-    void atualizar(Cliente cliente);
+    Cliente atualizar(Cliente cliente);
 
     void deletar(Cliente cliente);
 

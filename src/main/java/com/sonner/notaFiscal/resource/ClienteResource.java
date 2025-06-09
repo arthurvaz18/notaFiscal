@@ -3,16 +3,16 @@ package com.sonner.notaFiscal.resource;
 import com.sonner.notaFiscal.model.Cliente;
 import com.sonner.notaFiscal.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/clientes")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ClienteResource {
 
     ClienteService clienteService;
@@ -23,14 +23,9 @@ public class ClienteResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvar(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente) {
         Cliente clienteSalvo = clienteService.salvar(cliente);
-        URI local = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(clienteSalvo.getId())
-                .toUri();
-        return ResponseEntity.created(local).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalvo);
     }
 
     @GetMapping("{id}")
@@ -48,21 +43,19 @@ public class ClienteResource {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable("id") Integer id,@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> atualizar(@PathVariable("id") Integer id,@RequestBody Cliente cliente) {
 
         if (!id.equals(cliente.getId())) {
             return ResponseEntity.badRequest().build();
         }
 
         Optional<Cliente> clienteOptional = clienteService.buscarCliente(id);
-
         if (!clienteOptional.isPresent()) {
             return ResponseEntity.notFound().build();
         }
 
-        clienteService.atualizar(cliente);
-
-        return ResponseEntity.noContent().build();
+        Cliente clienteAtualizado = clienteService.atualizar(cliente);
+        return ResponseEntity.ok(clienteAtualizado);
     }
 
     @DeleteMapping("{id}")

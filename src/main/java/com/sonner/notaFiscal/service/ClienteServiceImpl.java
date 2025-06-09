@@ -29,8 +29,8 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public void atualizar(Cliente cliente) {
-        clienteRepository.save(cliente);
+    public Cliente atualizar(Cliente cliente) {
+       return clienteRepository.save(cliente);
     }
 
     @Override
