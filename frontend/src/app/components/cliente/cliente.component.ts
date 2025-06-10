@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ClienteService } from '../../services/cliente.service';
-import { Cliente } from '../../models/cliente';
+import {Component, OnInit} from '@angular/core';
+import {ClienteService} from '../../services/cliente.service';
+import {Cliente} from '../../models/cliente';
 
 @Component({
   selector: 'app-cliente',
@@ -13,16 +13,23 @@ export class ClienteComponent implements OnInit {
   mostrarPesquisaCampos = false;
   mostrarAtualizarCampos = false;
 
-  novoCliente: Cliente = { codigoCliente: '', nomeCliente: '' };
-  clienteParaAtualizar: Cliente = { codigoCliente: '', nomeCliente: '' };
+  novoCliente: Cliente = {codigoCliente: '', nomeCliente: ''};
+  clienteParaAtualizar: Cliente = {codigoCliente: '', nomeCliente: ''};
 
   filtroCodigoCliente = '';
   filtroNomeCliente = '';
   clientesEncontrados: Cliente[] = [];
 
-  constructor(private clienteService: ClienteService) {}
+  deletarSucesso: string = '';
+  deletaMostraMensagem: boolean = false;
+  clienteParaDeletar: Cliente | null = null;
 
-  ngOnInit(): void {}
+
+  constructor(private clienteService: ClienteService) {
+  }
+
+  ngOnInit(): void {
+  }
 
   mostrarCampos(): void {
     this.mostrarFormulario = true;
@@ -41,7 +48,7 @@ export class ClienteComponent implements OnInit {
   salvarCliente(): void {
     this.clienteService.cadastrarCliente(this.novoCliente).subscribe({
       next: () => {
-        this.novoCliente = { codigoCliente: '', nomeCliente: '' };
+        this.novoCliente = {codigoCliente: '', nomeCliente: ''};
         alert('Cliente cadastrado com sucesso!');
       },
       error: (erro) => console.error('Erro ao cadastrar cliente:', erro)
@@ -56,7 +63,7 @@ export class ClienteComponent implements OnInit {
   }
 
   editarCliente = (e: any): void => {
-    this.clienteParaAtualizar = { ...e.row.data };
+    this.clienteParaAtualizar = {...e.row.data};
     this.mostrarAtualizarCampos = true;
     this.mostrarFormulario = false;
     this.mostrarPesquisaCampos = false;
@@ -75,6 +82,34 @@ export class ClienteComponent implements OnInit {
 
   cancelarAtualizacao(): void {
     this.mostrarAtualizarCampos = false;
-    this.clienteParaAtualizar = { codigoCliente: '', nomeCliente: '' };
+    this.clienteParaAtualizar = {codigoCliente: '', nomeCliente: ''};
+  }
+
+  deletarCliente(id: number): void {
+    if (confirm('Deseja realmente excluir este cliente?')) {
+      this.clienteService.deletarCliente(id).subscribe(() => {
+        this.deletarSucesso = 'Cliente excluído com sucesso!';
+        this.deletaMostraMensagem = true;
+        this.pesquisarCliente();
+      });
+    }
+  }
+
+  deletarClienteGrid = (e: any): void => {
+    this.clienteParaDeletar = e.row.data;
+  }
+
+  confirmarExclusao(): void {
+    if (this.clienteParaDeletar?.id) {
+      this.clienteService.deletarCliente(this.clienteParaDeletar.id).subscribe(() => {
+        this.deletarSucesso = 'Cliente excluído com sucesso!';
+        this.deletaMostraMensagem = true;
+        this.pesquisarCliente();
+      });
+    }
+  }
+
+  cancelarExclusao(): void {
+    this.clienteParaDeletar = null;
   }
 }

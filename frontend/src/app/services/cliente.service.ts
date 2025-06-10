@@ -31,4 +31,8 @@ export class ClienteService {
   atualizarCliente(cliente: Cliente): Observable<Cliente> {
     return this.http.put<Cliente>(this.baseUrl + '/' + cliente.id, cliente);
   }
+
+  deletarCliente(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }

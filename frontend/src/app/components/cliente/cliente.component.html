@@ -21,12 +21,23 @@
   <div *ngIf="mostrarPesquisaCampos" style="margin-top: 20px;" class="formularioCadastro">
     <dx-text-box [(value)]="filtroCodigoCliente" placeholder="Pesquisar por Código do Cliente"></dx-text-box>
     <dx-text-box [(value)]="filtroNomeCliente" placeholder="Pesquisar por Nome do Cliente"></dx-text-box>
-    <dx-button text="PESQUISAR" (onClick)="pesquisarCliente()"></dx-button>
+    <dx-button type="default" text="PESQUISAR" (onClick)="pesquisarCliente()"></dx-button>
+  </div>
+
+  <div *ngIf="deletaMostraMensagem" class="mensagem-sucesso" style="background: #d4edda; padding: 10px; margin: 10px 0; border-radius: 5px; color: #155724;">
+    {{ deletarSucesso }}
+    <button (click)="deletaMostraMensagem = false" style="margin-left: 20px; padding: 5px 10px;">Fechar</button>
+  </div>
+
+  <div *ngIf="clienteParaDeletar" style="border-radius: 5px; color: white;">
+    Deseja realmente excluir <strong>{{ clienteParaDeletar.nomeCliente }}</strong>?
+    <dx-button (click)="confirmarExclusao()" style="margin-left:10px; color: white; background: #155724">Sim</dx-button>
+    <dx-button (click)="cancelarExclusao()" style="margin-left:5px; color: white; background: darkred">Não</dx-button>
   </div>
 
   <!-- Data Grid -->
-  <div *ngIf="clientesEncontrados.length > 0" style="margin-top: 20px; color: white;">
-    <label>Clientes Encontrados</label>
+  <div *ngIf="clientesEncontrados.length > 0" class="resultadoClientes" style="margin-top: 20px; color: white;">
+    <label class="fonte">Clientes Encontrados</label>
     <dx-data-grid
       [dataSource]="clientesEncontrados"
       [showBorders]="true"
@@ -41,6 +52,7 @@
 
       <dxi-column type="buttons">
         <dxi-button text="Editar" icon="edit" [onClick]="editarCliente"></dxi-button>
+        <dxi-button text="Deletar" icon="trash" [onClick]="deletarClienteGrid"></dxi-button>
       </dxi-column>
     </dx-data-grid>
   </div>
