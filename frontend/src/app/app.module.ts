@@ -1,22 +1,25 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {
   DxButtonModule,
   DxDrawerModule,
   DxFormModule,
   DxListModule,
   DxSelectBoxModule,
-  DxToolbarModule, DxTreeListModule
+  DxToolbarModule,
+  DxTreeListModule
 } from "devextreme-angular";
 import {HttpClientModule} from "@angular/common/http";
+import {ClienteModule} from "./components/cliente/cliente.module";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
+
   imports: [
     BrowserModule,
     DxDrawerModule,
@@ -27,7 +30,9 @@ import {HttpClientModule} from "@angular/common/http";
     DxSelectBoxModule,
     HttpClientModule,
     DxFormModule,
-    DxTreeListModule
+    DxTreeListModule,
+    ClienteModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

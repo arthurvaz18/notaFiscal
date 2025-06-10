@@ -11,7 +11,7 @@ export class AppComponent {
   menuAberto = false;
 
   itensMenu = [
-    { texto: 'Início', caminho: '/home' },
+    { texto: 'Cliente', caminho: '/clientes' },
     { texto: 'Informações', caminho: '/informacoes' }
   ];
 

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {ClienteComponent} from "./components/cliente/cliente.component";
 
 const routes: Routes = [
-  /*{ path: 'home', component: HomeComponent },
-  { path: 'informacoes', component: InformacoesComponent },
+  { path: 'clientes', component: ClienteComponent },
+  /*{ path: 'informacoes', component: InformacoesComponent },*/
 
-  { path: '', redirectTo: 'home', pathMatch: 'full' },*/
+  { path: '', redirectTo: 'cliente', pathMatch: 'full' },
 ];
 
 @NgModule({
