@@ -1,0 +1,19 @@
+.containerSimples{
+  background-color: #0A192F;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.fonte{
+  color: #f4f4f4;
+  font-size: 25px;
+  width: 300px;
+  left: 200px;
+}
+.campoTexto{
+  width: 300px;
+  margin-bottom: 15px;
+}

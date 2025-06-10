@@ -1,1 +1,29 @@
-<p>cliente works!</p>
+<div class="containerSimples">
+
+  <label class="fonte" (click)="mostrarCampos()" style="cursor: pointer;">
+    Cadastrar Cliente
+  </label>
+
+  <div *ngIf="mostrarFormulario">
+    <dx-text-box
+      class="campoTexto"
+      [(value)]="novoCliente.codigoCliente"
+      placeholder="Digite o Código">
+    </dx-text-box>
+
+    <dx-text-box
+      class="campoTexto"
+      [(value)]="novoCliente.nomeCliente"
+      placeholder="Digite o Nome">
+    </dx-text-box>
+
+    <dx-button
+      class="campoTexto"
+      text="SALVAR"
+      type="success"
+      (onClick)="salvarCliente()">
+    </dx-button>
+  </div>
+
+</div>
+

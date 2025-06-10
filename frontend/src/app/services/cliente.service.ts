@@ -7,11 +7,11 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class ClienteService {
-  private baseUrl = 'http://localhost:8080/estabelecimentos';
+  private baseUrl = 'http://localhost:8080/clientes';
 
   constructor(private http: HttpClient) { }
 
   cadastrarCliente(cliente: Cliente): Observable<Cliente>{
-    return this.http.post<Cliente>(this.baseUrl, Cliente);
+    return this.http.post<Cliente>(this.baseUrl, cliente);
   }
 }

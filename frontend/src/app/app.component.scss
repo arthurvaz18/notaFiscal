@@ -1,20 +1,21 @@
-.content {
-  margin-top: 90px;
-  padding: 16px;
-}
-.drawer-custom {
-  width: auto !important;
-  max-width: 250px;
-  min-width: 150px;
-
-  .dx-list {
-    width: auto;
-    max-width: 250px;
-  }
-
-  .dx-drawer-panel-content {
-    width: auto !important;
-  }
+.fundo {
+  background-color: #0A192F;
+  color: white;
 }
 
+#meu-drawer {
+  height: calc(100vh - 56px);
+  background-color: #f4f4f4;
+}
 
+.menu-panel-content {
+  background-color: #f4f4f4;
+  width: 250px;
+  height: 100%;
+}
+
+.view-panel-content {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}

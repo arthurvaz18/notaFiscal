@@ -1,5 +1,4 @@
-
-<dx-toolbar>
+<dx-toolbar class="fundo">
   <dxi-item
     location="before"
     widget="dxButton"
@@ -8,27 +7,28 @@
   <dxi-item location="center" text="Mercadão"></dxi-item>
 </dx-toolbar>
 
-<div class="layout-principal">
-  <dx-drawer
-    class="drawer-custom"
-    [opened]="menuAberto"
-    position="left"
-    [minSize]="10"
-    [maxSize]="250"
-    revealMode="overlap"
-    [closeOnOutsideClick]="true"
-    (onOptionChanged)="aoAlterarOpcaoDoMenu($event)">
+<dx-drawer
+  id="meu-drawer"
+  [opened]="menuAberto"
+  position="left"
+  revealMode="expand"
+  [closeOnOutsideClick]="true"
+  template="menu"
+  (onOptionChanged)="aoAlterarOpcaoDoMenu($event)">
 
-    <dx-list
-      *ngIf="menuAberto"
-      [items]="itensMenu"
-      displayExpr="texto"
-      selectionMode="single"
-      (onItemClick)="aoClicarItem($event.itemData)">
-    </dx-list>
-
-    <div class="conteudo">
-      <router-outlet></router-outlet>
+  <div *dxTemplate="let data of 'menu'">
+    <div class="menu-panel-content">
+      <dx-list
+        [items]="itensMenu"
+        displayExpr="texto"
+        selectionMode="single"
+        (onItemClick)="aoClicarItem($event.itemData)">
+      </dx-list>
     </div>
-  </dx-drawer>
-</div>
+  </div>
+
+  <div class="view-panel-content">
+    <router-outlet></router-outlet>
+  </div>
+
+</dx-drawer>
