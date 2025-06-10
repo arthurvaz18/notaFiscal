@@ -1,0 +1,20 @@
+.content {
+  margin-top: 90px;
+  padding: 16px;
+}
+.drawer-custom {
+  width: auto !important;
+  max-width: 250px;
+  min-width: 150px;
+
+  .dx-list {
+    width: auto;
+    max-width: 250px;
+  }
+
+  .dx-drawer-panel-content {
+    width: auto !important;
+  }
+}
+
+

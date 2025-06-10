@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,31 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'notaFiscalFront';
+  titulo = 'notaFiscalFront';
+  menuAberto = false;
+
+  itensMenu = [
+    { texto: 'Início', caminho: '/home' },
+    { texto: 'Informações', caminho: '/informacoes' }
+  ];
+
+  opcoesBotaoMenu = {
+    icon: 'menu',
+    onClick: () => {
+      this.menuAberto = !this.menuAberto;
+    }
+  };
+
+  constructor(private roteador: Router) {}
+
+  aoClicarItem(item: any) {
+    this.roteador.navigate([item.caminho]);
+    this.menuAberto = false;
+  }
+
+  aoAlterarOpcaoDoMenu(evento: any) {
+    if (evento.name === 'opened') {
+      this.menuAberto = evento.value;
+    }
+  }
 }
