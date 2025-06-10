@@ -11,47 +11,17 @@
   </div>
 
   <!-- Formulário de Cadastro -->
-  <div *ngIf="mostrarFormulario">
-    <dx-text-box
-      class="campoTexto"
-      [(value)]="novoCliente.codigoCliente"
-      placeholder="Digite o Código">
-    </dx-text-box>
-
-    <dx-text-box
-      class="campoTexto"
-      [(value)]="novoCliente.nomeCliente"
-      placeholder="Digite o Nome">
-    </dx-text-box>
-
-    <dx-button
-      class="campoTexto"
-      text="SALVAR"
-      type="success"
-      (onClick)="salvarCliente()">
-    </dx-button>
+  <div *ngIf="mostrarFormulario" class="formularioCadastro">
+    <dx-text-box [(value)]="novoCliente.codigoCliente" placeholder="Digite o Código"></dx-text-box>
+    <dx-text-box [(value)]="novoCliente.nomeCliente" placeholder="Digite o Nome"></dx-text-box>
+    <dx-button text="SALVAR" type="success" (onClick)="salvarCliente()"></dx-button>
   </div>
 
   <!-- Formulário de Pesquisa -->
-  <div *ngIf="mostrarPesquisaCampos" style="margin-top: 20px;">
-    <dx-text-box
-      class="campoTexto"
-      [(value)]="filtroCodigoCliente"
-      placeholder="Pesquisar por Código do Cliente">
-    </dx-text-box>
-
-    <dx-text-box
-      class="campoTexto"
-      [(value)]="filtroNomeCliente"
-      placeholder="Pesquisar por Nome do Cliente">
-    </dx-text-box>
-
-    <dx-button
-      class="campoTexto"
-      text="PESQUISAR"
-      type="default"
-      (onClick)="pesquisarCliente()">
-    </dx-button>
+  <div *ngIf="mostrarPesquisaCampos" style="margin-top: 20px;" class="formularioCadastro">
+    <dx-text-box [(value)]="filtroCodigoCliente" placeholder="Pesquisar por Código do Cliente"></dx-text-box>
+    <dx-text-box [(value)]="filtroNomeCliente" placeholder="Pesquisar por Nome do Cliente"></dx-text-box>
+    <dx-button text="PESQUISAR" (onClick)="pesquisarCliente()"></dx-button>
   </div>
 
   <!-- Data Grid -->
@@ -64,15 +34,26 @@
       [rowAlternationEnabled]="true">
 
       <dxo-paging [pageSize]="5"></dxo-paging>
-
-      <dxo-pager
-        [showPageSizeSelector]="true"
-        [allowedPageSizes]="[5,10,20]"
-        [showInfo]="true">
-      </dxo-pager>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,20]" [showInfo]="true"></dxo-pager>
 
       <dxi-column dataField="codigoCliente" caption="Código do Cliente"></dxi-column>
       <dxi-column dataField="nomeCliente" caption="Nome do Cliente"></dxi-column>
+
+      <dxi-column type="buttons">
+        <dxi-button text="Editar" icon="edit" [onClick]="editarCliente"></dxi-button>
+      </dxi-column>
     </dx-data-grid>
   </div>
+
+  <!-- Formulário de Atualização -->
+  <div *ngIf="mostrarAtualizarCampos" style="margin-top: 20px;">
+    <label style="color: white;">Atualizar Cliente</label>
+
+    <dx-text-box [(value)]="clienteParaAtualizar.codigoCliente" placeholder="Digite o Código"></dx-text-box>
+    <dx-text-box [(value)]="clienteParaAtualizar.nomeCliente" placeholder="Digite o Nome"></dx-text-box>
+
+    <dx-button text="ATUALIZAR" (onClick)="atualizarCliente()"></dx-button>
+    <dx-button text="CANCELAR" (onClick)="cancelarAtualizacao()"></dx-button>
+  </div>
+
 </div>

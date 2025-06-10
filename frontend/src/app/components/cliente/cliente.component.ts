@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ClienteService} from "../../services/cliente.service";
-import {Cliente} from "../../models/cliente";
+import { Component, OnInit } from '@angular/core';
+import { ClienteService } from '../../services/cliente.service';
+import { Cliente } from '../../models/cliente';
 
 @Component({
   selector: 'app-cliente',
@@ -9,56 +9,72 @@ import {Cliente} from "../../models/cliente";
 })
 export class ClienteComponent implements OnInit {
 
-  mostrarFormulario: boolean = false;
-  mostrarPesquisaCampos: boolean = false;
+  mostrarFormulario = false;
+  mostrarPesquisaCampos = false;
+  mostrarAtualizarCampos = false;
 
+  novoCliente: Cliente = { codigoCliente: '', nomeCliente: '' };
+  clienteParaAtualizar: Cliente = { codigoCliente: '', nomeCliente: '' };
 
-  novoCliente: Cliente = {
-    codigoCliente: '',
-    nomeCliente: ''
-  };
-
-  filtroCodigoCliente: string = '';
-  filtroNomeCliente: string = '';
+  filtroCodigoCliente = '';
+  filtroNomeCliente = '';
   clientesEncontrados: Cliente[] = [];
 
-  constructor(private mainService: ClienteService) {
-  }
+  constructor(private clienteService: ClienteService) {}
 
   ngOnInit(): void {}
 
-  mostrarPesquisa(): void{
-    this.mostrarPesquisaCampos = !this.mostrarPesquisaCampos
-    this.mostrarFormulario = false;
-
-  }
   mostrarCampos(): void {
-    this.mostrarFormulario = !this.mostrarFormulario;
+    this.mostrarFormulario = true;
     this.mostrarPesquisaCampos = false;
-
+    this.mostrarAtualizarCampos = false;
+    this.clientesEncontrados = [];
   }
 
-  salvarCliente(): void{
-    this.mainService.cadastrarCliente(this.novoCliente).subscribe({
-      next: (resposta) =>{
-        console.log('Cliente cadastrado com sucesso:', resposta);
-        this.novoCliente = { codigoCliente: '', nomeCliente: '' }
-      },
-      error: (erro) =>{
-        console.error('Erro ao cadastrar cliente:', erro);
-      }
-    })
+  mostrarPesquisa(): void {
+    this.mostrarPesquisaCampos = true;
+    this.mostrarFormulario = false;
+    this.mostrarAtualizarCampos = false;
+    this.clientesEncontrados = [];
   }
-  pesquisarCliente(): void {
-    this.mainService.pesquisarCliente(this.filtroNomeCliente, this.filtroCodigoCliente).subscribe({
-      next: (clientes) => {
-        this.clientesEncontrados = clientes;
-        console.log('Clientes encontrados:', clientes);
+
+  salvarCliente(): void {
+    this.clienteService.cadastrarCliente(this.novoCliente).subscribe({
+      next: () => {
+        this.novoCliente = { codigoCliente: '', nomeCliente: '' };
+        alert('Cliente cadastrado com sucesso!');
       },
-      error: (erro) => {
-        console.error('Erro ao pesquisar clientes:', erro);
-      }
+      error: (erro) => console.error('Erro ao cadastrar cliente:', erro)
     });
   }
 
+  pesquisarCliente(): void {
+    this.clienteService.pesquisarCliente(this.filtroNomeCliente, this.filtroCodigoCliente).subscribe({
+      next: (clientes) => this.clientesEncontrados = clientes,
+      error: (erro) => console.error('Erro ao pesquisar clientes:', erro)
+    });
+  }
+
+  editarCliente = (e: any): void => {
+    this.clienteParaAtualizar = { ...e.row.data };
+    this.mostrarAtualizarCampos = true;
+    this.mostrarFormulario = false;
+    this.mostrarPesquisaCampos = false;
+  };
+
+  atualizarCliente(): void {
+    this.clienteService.atualizarCliente(this.clienteParaAtualizar).subscribe({
+      next: () => {
+        alert('Cliente atualizado com sucesso!');
+        this.mostrarAtualizarCampos = false;
+        this.pesquisarCliente();
+      },
+      error: (erro) => console.error('Erro ao atualizar cliente:', erro)
+    });
+  }
+
+  cancelarAtualizacao(): void {
+    this.mostrarAtualizarCampos = false;
+    this.clienteParaAtualizar = { codigoCliente: '', nomeCliente: '' };
+  }
 }
