@@ -1,9 +1,16 @@
 <div class="containerSimples">
 
-  <label class="fonte" (click)="mostrarCampos()" style="cursor: pointer;">
-    Cadastrar Cliente
-  </label>
+  <div class="menu-container">
+    <label class="fonte" (click)="mostrarCampos()" style="cursor: pointer;">
+      Cadastrar Cliente
+    </label>
 
+    <label class="fonte" (click)="mostrarPesquisa()" style="cursor: pointer;">
+      Pesquisar Cliente
+    </label>
+  </div>
+
+  <!-- Formulário de Cadastro -->
   <div *ngIf="mostrarFormulario">
     <dx-text-box
       class="campoTexto"
@@ -25,5 +32,47 @@
     </dx-button>
   </div>
 
-</div>
+  <!-- Formulário de Pesquisa -->
+  <div *ngIf="mostrarPesquisaCampos" style="margin-top: 20px;">
+    <dx-text-box
+      class="campoTexto"
+      [(value)]="filtroCodigoCliente"
+      placeholder="Pesquisar por Código do Cliente">
+    </dx-text-box>
 
+    <dx-text-box
+      class="campoTexto"
+      [(value)]="filtroNomeCliente"
+      placeholder="Pesquisar por Nome do Cliente">
+    </dx-text-box>
+
+    <dx-button
+      class="campoTexto"
+      text="PESQUISAR"
+      type="default"
+      (onClick)="pesquisarCliente()">
+    </dx-button>
+  </div>
+
+  <!-- Data Grid -->
+  <div *ngIf="clientesEncontrados.length > 0" style="margin-top: 20px; color: white;">
+    <label>Clientes Encontrados</label>
+    <dx-data-grid
+      [dataSource]="clientesEncontrados"
+      [showBorders]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true">
+
+      <dxo-paging [pageSize]="5"></dxo-paging>
+
+      <dxo-pager
+        [showPageSizeSelector]="true"
+        [allowedPageSizes]="[5,10,20]"
+        [showInfo]="true">
+      </dxo-pager>
+
+      <dxi-column dataField="codigoCliente" caption="Código do Cliente"></dxi-column>
+      <dxi-column dataField="nomeCliente" caption="Nome do Cliente"></dxi-column>
+    </dx-data-grid>
+  </div>
+</div>

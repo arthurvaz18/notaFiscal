@@ -10,19 +10,33 @@ import {Cliente} from "../../models/cliente";
 export class ClienteComponent implements OnInit {
 
   mostrarFormulario: boolean = false;
+  mostrarPesquisaCampos: boolean = false;
+
 
   novoCliente: Cliente = {
     codigoCliente: '',
     nomeCliente: ''
   };
 
-  mostrarCampos(): void {
-    this.mostrarFormulario = true;
-  }
+  filtroCodigoCliente: string = '';
+  filtroNomeCliente: string = '';
+  clientesEncontrados: Cliente[] = [];
+
   constructor(private mainService: ClienteService) {
   }
 
   ngOnInit(): void {}
+
+  mostrarPesquisa(): void{
+    this.mostrarPesquisaCampos = !this.mostrarPesquisaCampos
+    this.mostrarFormulario = false;
+
+  }
+  mostrarCampos(): void {
+    this.mostrarFormulario = !this.mostrarFormulario;
+    this.mostrarPesquisaCampos = false;
+
+  }
 
   salvarCliente(): void{
     this.mainService.cadastrarCliente(this.novoCliente).subscribe({
@@ -34,6 +48,17 @@ export class ClienteComponent implements OnInit {
         console.error('Erro ao cadastrar cliente:', erro);
       }
     })
+  }
+  pesquisarCliente(): void {
+    this.mainService.pesquisarCliente(this.filtroNomeCliente, this.filtroCodigoCliente).subscribe({
+      next: (clientes) => {
+        this.clientesEncontrados = clientes;
+        console.log('Clientes encontrados:', clientes);
+      },
+      error: (erro) => {
+        console.error('Erro ao pesquisar clientes:', erro);
+      }
+    });
   }
 
 }

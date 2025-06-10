@@ -6,12 +6,17 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 .fonte{
   color: #f4f4f4;
   font-size: 25px;
-  width: 300px;
-  left: 200px;
+}
+.menu-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
 }
 .campoTexto{
   width: 300px;

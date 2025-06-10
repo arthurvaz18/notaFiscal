@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Cliente} from "../models/cliente";
 import {Observable} from "rxjs";
 
@@ -13,5 +13,18 @@ export class ClienteService {
 
   cadastrarCliente(cliente: Cliente): Observable<Cliente>{
     return this.http.post<Cliente>(this.baseUrl, cliente);
+  }
+
+  pesquisarCliente(nomeCliente?: string, codigoCliente?: string): Observable<Cliente[]>{
+    let params = new HttpParams();
+
+    if(nomeCliente){
+      params = params.set('nomeCliente', nomeCliente);
+    }
+
+    if (codigoCliente) {
+      params = params.set('codigoCliente', codigoCliente);
+    }
+    return this.http.get<Cliente[]>(this.baseUrl, { params })
   }
 }

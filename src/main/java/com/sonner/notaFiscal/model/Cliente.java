@@ -1,5 +1,7 @@
 package com.sonner.notaFiscal.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,9 +14,11 @@ public class Cliente {
     private Integer id;
 
     @Column(name = "codigo_cliente", unique = true, nullable = false)
+    @NotNull
     private String codigoCliente;
 
     @Column(name = "nome_cliente", unique = true, nullable = false)
+    @NotNull
     private String nomeCliente;
 
     ///////////////////Construtor//////////////////////////////////////////////////

@@ -2,7 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {ClienteComponent} from "./cliente.component";
-import {DxButtonModule, DxFormModule, DxTextAreaModule, DxTextBoxModule, DxTileViewModule} from "devextreme-angular";
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxTextAreaModule,
+  DxTextBoxModule,
+  DxTileViewModule
+} from "devextreme-angular";
 
 
 @NgModule({
@@ -17,6 +24,7 @@ import {DxButtonModule, DxFormModule, DxTextAreaModule, DxTextBoxModule, DxTileV
     DxTextAreaModule,
     DxTileViewModule,
     DxFormModule,
+    DxDataGridModule,
   ],
   exports: [
     ClienteComponent
