@@ -20,6 +20,11 @@ export class ProdutoComponent implements OnInit {
   novoProduto: Produto = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
   produtoParaAtualizar: Produto = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
 
+  //Excluir
+  deletarSucesso: string = '';
+  deletaMostraMensagem: boolean = false;
+  produtoParaDeletar: Produto | null = null;
+
 
   constructor(private produtoService: ProdutoService) {
   }
@@ -83,5 +88,24 @@ export class ProdutoComponent implements OnInit {
     this.mostrarAtualizarCampos = false;
     this.produtoParaAtualizar = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
   }
+
+  detelarProdutoGrid = (e: any): void =>{
+    this.produtoParaDeletar = e.row.data;
+  }
+
+  confirmarExcluir(): void{
+    if( this.produtoParaDeletar?.id){
+      this.produtoService.deletarProduto(this.produtoParaDeletar.id).subscribe(()=>{
+        this.deletarSucesso = 'Cliente excluído com sucesso!';
+        this.deletaMostraMensagem = true;
+        this.pesquisarProduto();
+      })
+    }
+  }
+
+  cancelarExcluir(): void{
+    this.produtoParaDeletar = null;
+  }
+
 
 }

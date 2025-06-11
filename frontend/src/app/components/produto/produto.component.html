@@ -118,9 +118,11 @@
 
       <dxi-column type="buttons">
         <dxi-button text="Editar" icon="edit" [onClick]="editarProduto"></dxi-button>
+        <dxi-button text="Excluir" icon="trash" [onClick]="detelarProdutoGrid"></dxi-button>
       </dxi-column>
 
     </dx-data-grid>
+
     <div *ngIf="mostrarAtualizarCampos" class="resultadoProdutos" style="margin-top: 20px;">
       <label class="fonte" style="color: white;">Atualizar Produto</label>
 
@@ -171,10 +173,25 @@
           </dx-text-box>
         </div>
       </dx-form>
-      <div style="margin-top: 10px; display: flex; gap: 10px;" >
+      <div style="margin-top: 10px; display: flex; gap: 10px;">
         <dx-button type="success" text="ATUALIZAR" (onClick)="atualizarProduto()"></dx-button>
         <dx-button type="danger" text="CANCELAR" (onClick)="cancelarAtualizacao()"></dx-button>
       </div>
+
     </div>
+
+  </div>
+
+  <div *ngIf="produtoParaDeletar" style="border-radius: 5px; color: white;">
+      Deseja realmente excluir <strong>{{ produtoParaDeletar.descricaoProduto }}</strong>?
+      <dx-button (click)="confirmarExcluir()" style="margin-left: 10px; color: white; background: #155724">Sim
+      </dx-button>
+      <dx-button (click)="cancelarExcluir()" style="margin-left: 5px; color: white; background: darkred">Não</dx-button>
+  </div>
+
+  <div *ngIf="deletaMostraMensagem" class="mensagem-sucesso"
+       style="background: #d4edda; padding: 10px; margin: 10px 0; border-radius: 5px; color: #155724;">
+    {{ deletarSucesso }}
+    <button (click)="deletaMostraMensagem = false" style="margin-left: 20px; padding: 5px 10px;">Fechar</button>
   </div>
 </div>
