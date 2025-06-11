@@ -33,4 +33,11 @@
 ::ng-deep .label-form-white .dx-field-item-label-text {
   color: white;
 }
+.resultadoProdutos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  color: white;
+}
 

@@ -13,6 +13,10 @@ export class ProdutoComponent implements OnInit {
   mostrarPesquisaCampos = false;
   mostrarAtualizarCampos = false;
 
+  filtroCodigoProduto = '';
+  filtroDescricaoProduto = '';
+  produtosEncontrados: Produto[] = [];
+
   novoProduto: Produto = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
 
   constructor(private produtoService: ProdutoService) {
@@ -25,6 +29,13 @@ export class ProdutoComponent implements OnInit {
     this.mostrarPesquisaCampos = false;
     this.mostrarFormularioCadastro = !this.mostrarFormularioCadastro;
     this.mostrarAtualizarCampos = false;
+    this.produtosEncontrados = [];
+  }
+
+  mostrarPesquisa(): void{
+    this.mostrarPesquisaCampos = !this.mostrarPesquisaCampos;
+    this.mostrarFormularioCadastro = false;
+    this.produtosEncontrados = [];
   }
 
   cadastrarCliente(): void {
@@ -34,6 +45,16 @@ export class ProdutoComponent implements OnInit {
         alert('Produto Cadastrado com sucesso!')
       },
       error: (erro) => console.error('Erro ao cadastrar Produdo:', erro)
+    });
+  }
+
+  pesquisaProduto(): void{
+    this.produtoService.pesquisarProduto(this.filtroCodigoProduto, this.filtroDescricaoProduto).subscribe({
+      next: (produtos)=> {
+        console.log('Produtos recebidos:', produtos);
+        this.produtosEncontrados = produtos;
+      },
+      error: (erro) => console.error("Erro ao pesquisar Produto", erro)
     });
   }
 
