@@ -14,6 +14,7 @@ import {
 } from "devextreme-angular";
 import {HttpClientModule} from "@angular/common/http";
 import {ClienteModule} from "./components/cliente/cliente.module";
+import {ProdutoModule} from "./components/produto/produto.module";
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import {ClienteModule} from "./components/cliente/cliente.module";
     DxFormModule,
     DxTreeListModule,
     ClienteModule,
+    ProdutoModule,
     AppRoutingModule
   ],
   providers: [],

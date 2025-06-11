@@ -1,0 +1,33 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {FormsModule} from "@angular/forms";
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxTextAreaModule,
+  DxTextBoxModule,
+  DxTileViewModule
+} from "devextreme-angular";
+import {ProdutoComponent} from "./produto.component";
+
+
+@NgModule({
+  declarations: [
+    ProdutoComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DxTextBoxModule,
+    DxButtonModule,
+    DxTextAreaModule,
+    DxTileViewModule,
+    DxFormModule,
+    DxDataGridModule,
+  ],
+  exports: [
+    ProdutoComponent
+  ]
+})
+export class ProdutoModule { }

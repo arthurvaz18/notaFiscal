@@ -12,7 +12,7 @@ export class AppComponent {
 
   itensMenu = [
     { texto: 'Cliente', caminho: '/clientes' },
-    { texto: 'Informações', caminho: '/informacoes' }
+    { texto: 'Produtos', caminho: '/produtos' }
   ];
 
   opcoesBotaoMenu = {
