@@ -12,32 +12,91 @@
 
   <!-- Formulário de Cadastro -->
   <div *ngIf="mostrarFormularioCadastro" class="formularioCadastro">
-    <dx-text-box [(value)]="novoCliente.codigoCliente" placeholder="Digite o Código"></dx-text-box>
-    <dx-text-box [(value)]="novoCliente.nomeCliente" placeholder="Digite o Nome"></dx-text-box>
+
+    <dx-form [formData]="novoCliente">
+
+      <dxi-item
+        dataField="codigoCliente"
+        [label]="{text: 'Cód. Cliente'}"
+        cssClass="label-form-white"
+        template="codigoClienteTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="nomeCliente"
+        [label]="{text: 'Nome Cliente'}"
+        cssClass="label-form-white"
+        template="nomeClienteTemplate">
+      </dxi-item>
+
+      <!-------- *dxTemplates  ------------>
+      <div *dxTemplate="let data of 'codigoClienteTemplate'">
+        <dx-text-box
+          [(value)]="novoCliente.codigoCliente"
+          placeholder="Digite o código do Cliente"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div *dxTemplate="let data of 'nomeClienteTemplate'">
+        <dx-text-box
+          [(value)]="novoCliente.nomeCliente"
+          placeholder="Digite o nome do Cliente"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+    </dx-form>
+
     <dx-button text="SALVAR" type="success" (onClick)="cadastrarCliente()"></dx-button>
+
   </div>
 
   <!-- Formulário de Pesquisa -->
   <div *ngIf="mostrarFormularioPesquisa" style="margin-top: 20px;" class="formularioCadastro">
-    <dx-text-box [(value)]="filtroCodigoCliente" placeholder="Pesquisar por Código do Cliente"></dx-text-box>
-    <dx-text-box [(value)]="filtroNomeCliente" placeholder="Pesquisar por Nome do Cliente"></dx-text-box>
+
+    <dx-form>
+
+      <dxi-item
+        dataField="filtroCodigoCliente"
+        [label]="{text: 'Cód. Cliente'}"
+        cssClass="label-form-white"
+        template="filtroCodigoClienteTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="filtroNomeCliente"
+        [label]="{text: 'Nome Cliente'}"
+        cssClass="label-form-white"
+        template="filtroNomeClienteTemplate">
+      </dxi-item>
+
+      <!-------- *dxTemplates  ------------>
+      <div *dxTemplate="let data of 'filtroCodigoClienteTemplate'">
+        <dx-text-box
+          [(value)]="filtroCodigoCliente"
+          placeholder="Digite o código do Cliente"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div *dxTemplate="let data of 'filtroNomeClienteTemplate'">
+        <dx-text-box
+          [(value)]="filtroNomeCliente"
+          placeholder="Digite o nome do Cliente"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+    </dx-form>
+
     <dx-button type="default" text="PESQUISAR" (onClick)="pesquisarCliente()"></dx-button>
+
   </div>
 
-  <div *ngIf="deletaMostraMensagem" class="mensagem-sucesso" style="background: #d4edda; padding: 10px; margin: 10px 0; border-radius: 5px; color: #155724;">
-    {{ deletarSucesso }}
-    <button (click)="deletaMostraMensagem = false" style="margin-left: 20px; padding: 5px 10px;">Fechar</button>
-  </div>
-
-  <div *ngIf="clienteParaDeletar" style="border-radius: 5px; color: white;">
-    Deseja realmente excluir <strong>{{ clienteParaDeletar.nomeCliente }}</strong>?
-    <dx-button (click)="confirmarExcluir()" style="margin-left:10px; color: white; background: #155724">Sim</dx-button>
-    <dx-button (click)="cancelarExcluir()" style="margin-left:5px; color: white; background: darkred">Não</dx-button>
-  </div>
-
-  <!-- Data Grid -->
+  <!-- Data Grid Pesquisa -->
   <div *ngIf="clientesEncontrados.length > 0" class="resultadoClientes" style="margin-top: 20px; color: white;">
     <label class="fonte">Clientes Encontrados</label>
+
     <dx-data-grid
       [dataSource]="clientesEncontrados"
       [showBorders]="true"
@@ -54,18 +113,67 @@
         <dxi-button text="Editar" icon="edit" [onClick]="editarCliente"></dxi-button>
         <dxi-button text="Deletar" icon="trash" [onClick]="deletarClienteGrid"></dxi-button>
       </dxi-column>
+
     </dx-data-grid>
+
+    <!-- Formulário de Atualização -->
+    <div *ngIf="mostrarAtualizarCampos" class="resultadoClientes" style="margin-top: 20px;">
+      <label style="color: white;">Atualizar Cliente</label>
+
+      <dx-form [formData]="clienteParaAtualizar">
+        <dxi-item
+          dataField="codigoCliente"
+          [label]="{text: 'Atualizar Código.'}"
+          cssClass="label-form-white"
+          template="codigoClienteAtualizaTemplate">
+        </dxi-item>
+
+        <dxi-item
+          dataField="nomeCliente"
+          [label]="{text: 'Atualizar Código.'}"
+          cssClass="label-form-white"
+          template="nomeClienteAtualizaTemplate">
+        </dxi-item>
+
+        <!-- Templates -->
+        <div *dxTemplate="let data of 'codigoClienteAtualizaTemplate'">
+          <dx-text-box
+            [(value)]="clienteParaAtualizar.codigoCliente"
+            placeholder="Informe o código"
+            [showClearButton]="true">
+          </dx-text-box>
+        </div>
+
+        <div *dxTemplate="let data of 'nomeClienteAtualizaTemplate'">
+          <dx-text-box
+            [(value)]="clienteParaAtualizar.nomeCliente"
+            placeholder="Informe o código"
+            [showClearButton]="true">
+          </dx-text-box>
+        </div>
+      </dx-form>
+
+      <div style="margin-top: 10px; display: flex; gap: 10px;">
+        <dx-button type="success" text="ATUALIZAR" (onClick)="atualizarCliente()"></dx-button>
+        <dx-button type="danger" text="CANCELAR" (onClick)="cancelarAtualizacao()"></dx-button>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Formulário de Atualização -->
-  <div *ngIf="mostrarAtualizarCampos" style="margin-top: 20px;">
-    <label style="color: white;">Atualizar Cliente</label>
+  <!-- Ícone de Excluir Cliente no dataGrid -->
+  <div *ngIf="clienteParaDeletar" style="border-radius: 5px; color: white;">
+    Deseja realmente excluir <strong>{{ clienteParaDeletar.nomeCliente }}</strong>?
 
-    <dx-text-box [(value)]="clienteParaAtualizar.codigoCliente" placeholder="Digite o Código"></dx-text-box>
-    <dx-text-box [(value)]="clienteParaAtualizar.nomeCliente" placeholder="Digite o Nome"></dx-text-box>
-
-    <dx-button text="ATUALIZAR" (onClick)="atualizarCliente()"></dx-button>
-    <dx-button text="CANCELAR" (onClick)="cancelarAtualizacao()"></dx-button>
+    <dx-button (click)="confirmarExcluir()" style="margin-left:10px; color: white; background: #155724">Sim</dx-button>
+    <dx-button (click)="cancelarExcluir()" style="margin-left:5px; color: white; background: darkred">Não</dx-button>
   </div>
 
+  <!-- Frase de segurança para excluir Cliente -->
+  <div *ngIf="deletaMostraMensagem" class="mensagem-sucesso"
+       style="background: #d4edda; padding: 10px; margin: 10px 0; border-radius: 5px; color: #155724;">
+    {{ deletarSucesso }}
+
+    <button (click)="deletaMostraMensagem = false" style="margin-left: 20px; padding: 5px 10px;">Fechar</button>
+  </div>
 </div>

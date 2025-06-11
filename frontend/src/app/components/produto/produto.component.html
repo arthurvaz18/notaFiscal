@@ -10,6 +10,7 @@
     </label>
   </div>
 
+  <!-- Formulário de Cadastro -->
   <div *ngIf="mostrarFormularioCadastro" class="formularioCadastro">
     <dx-form [formData]="novoProduto">
 
@@ -63,6 +64,7 @@
     <dx-button text="SALVAR" type="success" (onClick)="cadastrarCliente()"></dx-button>
   </div>
 
+  <!-- Formulário de Pesquisa -->
   <div *ngIf="mostrarFormularioPesquisa" class="formularioPesquisa">
     <dx-form>
 
@@ -100,6 +102,7 @@
     <dx-button type="default" text="PESQUISAR" (onClick)="pesquisarProduto()"></dx-button>
   </div>
 
+  <!-- Data Grid Pesquisa -->
   <div *ngIf="produtosEncontrados.length > 0" class="resultadoProdutos" style="margin-top: 20px; color: white;">
     <label class="fonte"> Produtos Encontrados</label>
 
@@ -182,16 +185,19 @@
 
   </div>
 
+  <!-- Ícone de Excluir Produto no dataGrid -->
   <div *ngIf="produtoParaDeletar" style="border-radius: 5px; color: white;">
       Deseja realmente excluir <strong>{{ produtoParaDeletar.descricaoProduto }}</strong>?
-      <dx-button (click)="confirmarExcluir()" style="margin-left: 10px; color: white; background: #155724">Sim
-      </dx-button>
+
+      <dx-button (click)="confirmarExcluir()" style="margin-left: 10px; color: white; background: #155724">Sim</dx-button>
       <dx-button (click)="cancelarExcluir()" style="margin-left: 5px; color: white; background: darkred">Não</dx-button>
   </div>
 
+  <!-- Frase de segurança para excluir Produto -->
   <div *ngIf="deletaMostraMensagem" class="mensagem-sucesso"
        style="background: #d4edda; padding: 10px; margin: 10px 0; border-radius: 5px; color: #155724;">
     {{ deletarSucesso }}
+
     <button (click)="deletaMostraMensagem = false" style="margin-left: 20px; padding: 5px 10px;">Fechar</button>
   </div>
 </div>
