@@ -4,7 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {
   DxButtonModule,
   DxDataGridModule,
-  DxFormModule,
+  DxFormModule, DxNumberBoxModule,
   DxTextAreaModule,
   DxTextBoxModule,
   DxTileViewModule
@@ -25,6 +25,7 @@ import {ProdutoComponent} from "./produto.component";
     DxTileViewModule,
     DxFormModule,
     DxDataGridModule,
+    DxNumberBoxModule,
   ],
   exports: [
     ProdutoComponent

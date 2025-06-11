@@ -1,1 +1,62 @@
-<p>produto works!</p>
+<div class="containerSimples">
+
+  <div class="menu-container">
+    <label class="fonte" (click)="mostrarCampos()" style="cursor: pointer;">
+      Cadastrar Produto
+    </label>
+  </div>
+
+  <div *ngIf="mostrarFormularioCadastro" class="formularioCadastro">
+    <dx-form [formData]="novoProduto">
+
+      <dxi-item
+        dataField="codigoProduto"
+        [label]="{text: 'Cód. Prod'}"
+        cssClass="label-form-white"
+        template="codigoProdutoTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="valorProduto"
+        [label]="{text: 'Valor'}"
+        cssClass="label-form-white"
+        template="valorProdutoTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="descricaoProduto"
+        [label]="{text: 'Desc. Prod'}"
+        cssClass="label-form-white"
+        template="descricaoProdutoTemplate">
+      </dxi-item>
+
+      <!-------- *dxTemplates  ------------>
+      <div *dxTemplate="let data of 'codigoProdutoTemplate'">
+        <dx-text-box
+          [(value)]="novoProduto.codigoProduto"
+          placeholder="Digite o código do Produto"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div *dxTemplate="let data of 'valorProdutoTemplate'">
+        <dx-number-box
+          [(value)]="novoProduto.valorProduto"
+          placeholder="R$:"
+          [showClearButton]="true">
+        </dx-number-box>
+      </div>
+
+      <div *dxTemplate="let data of 'descricaoProdutoTemplate'">
+        <dx-text-box
+          [(value)]="novoProduto.descricaoProduto"
+          placeholder="Descrição do Produto"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+    </dx-form>
+    <dx-button text="SALVAR" type="success" (onClick)="cadastrarCliente()"></dx-button>
+  </div>
+
+</div>
