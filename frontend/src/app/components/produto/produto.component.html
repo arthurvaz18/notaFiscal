@@ -1,11 +1,11 @@
 <div class="containerSimples">
 
   <div class="menu-container">
-    <label class="fonte" (click)="mostrarCampos()" style="cursor: pointer;">
+    <label class="fonte" (click)="mostrarCamposCadastro()" style="cursor: pointer;">
       Cadastrar Produto
     </label>
 
-    <label class="fonte" (click)="mostrarPesquisa()" style="cursor: pointer;">
+    <label class="fonte" (click)="mostrarCamposPesquisa()" style="cursor: pointer;">
       Pesquisar Produto
     </label>
   </div>
@@ -63,7 +63,7 @@
     <dx-button text="SALVAR" type="success" (onClick)="cadastrarCliente()"></dx-button>
   </div>
 
-  <div *ngIf="mostrarPesquisaCampos" class="formularioCadastro">
+  <div *ngIf="mostrarFormularioPesquisa" class="formularioPesquisa">
     <dx-form>
 
       <dxi-item
@@ -97,7 +97,7 @@
         </dx-text-box>
       </div>
     </dx-form>
-    <dx-button type="default" text="PESQUISAR" (onClick)="pesquisaProduto()"></dx-button>
+    <dx-button type="default" text="PESQUISAR" (onClick)="pesquisarProduto()"></dx-button>
   </div>
 
   <div *ngIf="produtosEncontrados.length > 0" class="resultadoProdutos" style="margin-top: 20px; color: white;">

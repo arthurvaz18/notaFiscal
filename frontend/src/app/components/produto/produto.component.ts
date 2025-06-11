@@ -10,7 +10,7 @@ import {Produto} from "../../models/produto";
 export class ProdutoComponent implements OnInit {
 
   mostrarFormularioCadastro = false;
-  mostrarPesquisaCampos = false;
+  mostrarFormularioPesquisa = false;
   mostrarAtualizarCampos = false;
 
   filtroCodigoProduto = '';
@@ -25,15 +25,15 @@ export class ProdutoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  mostrarCampos() {
-    this.mostrarPesquisaCampos = false;
+  mostrarCamposCadastro() {
+    this.mostrarFormularioPesquisa = false;
     this.mostrarFormularioCadastro = !this.mostrarFormularioCadastro;
     this.mostrarAtualizarCampos = false;
     this.produtosEncontrados = [];
   }
 
-  mostrarPesquisa(): void{
-    this.mostrarPesquisaCampos = !this.mostrarPesquisaCampos;
+  mostrarCamposPesquisa(): void{
+    this.mostrarFormularioPesquisa = !this.mostrarFormularioPesquisa;
     this.mostrarFormularioCadastro = false;
     this.produtosEncontrados = [];
   }
@@ -48,7 +48,7 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
-  pesquisaProduto(): void{
+  pesquisarProduto(): void{
     this.produtoService.pesquisarProduto(this.filtroCodigoProduto, this.filtroDescricaoProduto).subscribe({
       next: (produtos)=> {
         console.log('Produtos recebidos:', produtos);

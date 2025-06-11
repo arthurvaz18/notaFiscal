@@ -1,24 +1,24 @@
 <div class="containerSimples">
 
   <div class="menu-container">
-    <label class="fonte" (click)="mostrarCampos()" style="cursor: pointer;">
+    <label class="fonte" (click)="mostrarCamposCadastro()" style="cursor: pointer;">
       Cadastrar Cliente
     </label>
 
-    <label class="fonte" (click)="mostrarPesquisa()" style="cursor: pointer;">
+    <label class="fonte" (click)="mostrarCamposPesquisa()" style="cursor: pointer;">
       Pesquisar Cliente
     </label>
   </div>
 
   <!-- Formulário de Cadastro -->
-  <div *ngIf="mostrarFormulario" class="formularioCadastro">
+  <div *ngIf="mostrarFormularioCadastro" class="formularioCadastro">
     <dx-text-box [(value)]="novoCliente.codigoCliente" placeholder="Digite o Código"></dx-text-box>
     <dx-text-box [(value)]="novoCliente.nomeCliente" placeholder="Digite o Nome"></dx-text-box>
-    <dx-button text="SALVAR" type="success" (onClick)="salvarCliente()"></dx-button>
+    <dx-button text="SALVAR" type="success" (onClick)="cadastrarCliente()"></dx-button>
   </div>
 
   <!-- Formulário de Pesquisa -->
-  <div *ngIf="mostrarPesquisaCampos" style="margin-top: 20px;" class="formularioCadastro">
+  <div *ngIf="mostrarFormularioPesquisa" style="margin-top: 20px;" class="formularioCadastro">
     <dx-text-box [(value)]="filtroCodigoCliente" placeholder="Pesquisar por Código do Cliente"></dx-text-box>
     <dx-text-box [(value)]="filtroNomeCliente" placeholder="Pesquisar por Nome do Cliente"></dx-text-box>
     <dx-button type="default" text="PESQUISAR" (onClick)="pesquisarCliente()"></dx-button>
@@ -31,8 +31,8 @@
 
   <div *ngIf="clienteParaDeletar" style="border-radius: 5px; color: white;">
     Deseja realmente excluir <strong>{{ clienteParaDeletar.nomeCliente }}</strong>?
-    <dx-button (click)="confirmarExclusao()" style="margin-left:10px; color: white; background: #155724">Sim</dx-button>
-    <dx-button (click)="cancelarExclusao()" style="margin-left:5px; color: white; background: darkred">Não</dx-button>
+    <dx-button (click)="confirmarExcluir()" style="margin-left:10px; color: white; background: #155724">Sim</dx-button>
+    <dx-button (click)="cancelarExcluir()" style="margin-left:5px; color: white; background: darkred">Não</dx-button>
   </div>
 
   <!-- Data Grid -->
