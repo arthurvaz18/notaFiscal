@@ -18,6 +18,8 @@ export class ProdutoComponent implements OnInit {
   produtosEncontrados: Produto[] = [];
 
   novoProduto: Produto = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
+  produtoParaAtualizar: Produto = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
+
 
   constructor(private produtoService: ProdutoService) {
   }
@@ -38,6 +40,13 @@ export class ProdutoComponent implements OnInit {
     this.produtosEncontrados = [];
   }
 
+  editarProduto = (e: any): void =>{
+    this.produtoParaAtualizar = {...e.row.data};
+    this.mostrarFormularioCadastro = false;
+    this.mostrarFormularioPesquisa = false;
+    this.mostrarAtualizarCampos = true;
+  }
+
   cadastrarCliente(): void {
     this.produtoService.cadastrarProduto(this.novoProduto).subscribe({
       next: () => {
@@ -56,6 +65,23 @@ export class ProdutoComponent implements OnInit {
       },
       error: (erro) => console.error("Erro ao pesquisar Produto", erro)
     });
+    this.mostrarAtualizarCampos = false;
+  }
+
+  atualizarProduto(): void{
+    this.produtoService.atualizarProduto(this.produtoParaAtualizar).subscribe({
+      next: () => {
+        alert('Produto atualizado com sucesso!');
+        this.mostrarAtualizarCampos = false;
+        this.pesquisarProduto();
+      },
+      error: (erro) => console.error('Erro ao atualizar produto:', erro)
+    });
+  }
+
+  cancelarAtualizacao(): void{
+    this.mostrarAtualizarCampos = false;
+    this.produtoParaAtualizar = {codigoProduto: '', valorProduto: 0, descricaoProduto: ''};
   }
 
 }

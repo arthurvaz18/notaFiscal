@@ -27,4 +27,9 @@ export class ProdutoService {
     }
     return this.http.get<Produto[]>(this.baseUrl, { params })
   }
+
+  atualizarProduto(produto: Produto):Observable<Produto>{
+    return this.http.put<Produto>(this.baseUrl + '/' + produto.id, produto);
+  }
+
 }

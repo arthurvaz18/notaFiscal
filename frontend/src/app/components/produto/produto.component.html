@@ -116,8 +116,65 @@
       <dxi-column dataField="valorProduto" alignment="center" caption=" Valor do Produto"></dxi-column>
       <dxi-column dataField="descricaoProduto" alignment="center" caption=" Descricão do Produto"></dxi-column>
 
+      <dxi-column type="buttons">
+        <dxi-button text="Editar" icon="edit" [onClick]="editarProduto"></dxi-button>
+      </dxi-column>
+
     </dx-data-grid>
+    <div *ngIf="mostrarAtualizarCampos" class="resultadoProdutos" style="margin-top: 20px;">
+      <label class="fonte" style="color: white;">Atualizar Produto</label>
 
+      <dx-form [formData]="produtoParaAtualizar">
+        <dxi-item
+          dataField="codigoProduto"
+          [label]="{text: 'Atualizar Códgo.'}"
+          cssClass="label-form-white"
+          template="codigoProdutoAtualizaTemplate">
+        </dxi-item>
+
+        <dxi-item
+          dataField="valorProduto"
+          [label]="{text: 'Atualizar Valor'}"
+          cssClass="label-form-white"
+          template="valorProdutoAtualizaTemplate">
+        </dxi-item>
+
+        <dxi-item
+          dataField="descricaoProduto"
+          [label]="{text: 'Atualizar Descrição'}"
+          cssClass="label-form-white"
+          template="descricaoProdutoAtualizaTemplate">
+        </dxi-item>
+
+        <!-- Templates -->
+        <div *dxTemplate="let data of 'codigoProdutoAtualizaTemplate'">
+          <dx-text-box
+            [(value)]="produtoParaAtualizar.codigoProduto"
+            placeholder="Informe o código"
+            [showClearButton]="true">
+          </dx-text-box>
+        </div>
+
+        <div *dxTemplate="let data of 'valorProdutoAtualizaTemplate'">
+          <dx-number-box
+            [(value)]="produtoParaAtualizar.valorProduto"
+            placeholder="R$:"
+            [showClearButton]="true">
+          </dx-number-box>
+        </div>
+
+        <div *dxTemplate="let data of 'descricaoProdutoAtualizaTemplate'">
+          <dx-text-box
+            [(value)]="produtoParaAtualizar.descricaoProduto"
+            placeholder="Informe a descrição"
+            [showClearButton]="true">
+          </dx-text-box>
+        </div>
+      </dx-form>
+      <div style="margin-top: 10px; display: flex; gap: 10px;" >
+        <dx-button type="success" text="ATUALIZAR" (onClick)="atualizarProduto()"></dx-button>
+        <dx-button type="danger" text="CANCELAR" (onClick)="cancelarAtualizacao()"></dx-button>
+      </div>
+    </div>
   </div>
-
 </div>
