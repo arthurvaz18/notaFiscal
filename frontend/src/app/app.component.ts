@@ -12,7 +12,8 @@ export class AppComponent {
 
   itensMenu = [
     { texto: 'Cliente', caminho: '/clientes' },
-    { texto: 'Produtos', caminho: '/produtos' }
+    { texto: 'Produtos', caminho: '/produtos' },
+    { texto: 'Nota Fiscal', caminho: '/notasFiscais' }
   ];
 
   opcoesBotaoMenu = {

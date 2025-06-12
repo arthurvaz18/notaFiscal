@@ -15,6 +15,7 @@ import {
 import {HttpClientModule} from "@angular/common/http";
 import {ClienteModule} from "./components/cliente/cliente.module";
 import {ProdutoModule} from "./components/produto/produto.module";
+import {NotaFiscalModule} from "./components/nota-fiscal/nota-fiscal.module";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import {ProdutoModule} from "./components/produto/produto.module";
     DxTreeListModule,
     ClienteModule,
     ProdutoModule,
+    NotaFiscalModule,
     AppRoutingModule
   ],
   providers: [],
