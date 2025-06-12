@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
 import {
   DxButtonModule,
-  DxDataGridModule,
-  DxFormModule, DxNumberBoxModule,
+  DxDataGridModule, DxDateBoxModule,
+  DxFormModule, DxNumberBoxModule, DxSelectBoxModule,
   DxTextAreaModule,
   DxTextBoxModule,
   DxTileViewModule
@@ -26,6 +26,8 @@ import {NotaFiscalComponent} from "./nota-fiscal.component";
     DxFormModule,
     DxDataGridModule,
     DxNumberBoxModule,
+    DxDateBoxModule,
+    DxSelectBoxModule,
   ],
   exports: [
     NotaFiscalComponent

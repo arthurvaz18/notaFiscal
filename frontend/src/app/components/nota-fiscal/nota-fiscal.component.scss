@@ -1,0 +1,45 @@
+.containerSimples{
+  background-color: #0A192F;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.menu-container {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  text-align: center;
+  justify-content: center;
+}
+.fonte{
+  color: #f4f4f4;
+  font-size: 25px;
+  text-align: center;
+}
+::ng-deep .label-form-white .dx-field-item-label-text {
+  color: white;
+}
+.formularioCadastro{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.buttonItensCompraGrid{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+}

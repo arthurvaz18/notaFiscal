@@ -1,1 +1,129 @@
-<p>nota-fiscal works!</p>
+<div class="containerSimples">
+
+  <div class="menu-container">
+    <label class="fonte" (click)="mostrarCamposCadastro()" style="cursor: pointer;">
+      Cadastrar Nota Fiscal
+    </label>
+  </div>
+
+  <!-- Formulário de Cadastro -->
+  <div *ngIf="mostrarFormularioCadastro" class="formularioCadastro">
+
+    <dx-form [formData]="novaNotaFiscal">
+
+      <dxi-item
+        dataField="dataHoraNotaFiscal"
+        [label]="{text: 'Data NFs'}"
+        cssClass="label-form-white"
+        template="dataHoraNotaFiscalTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="cliente"
+        [label]="{text: 'Cod. Cliente'}"
+        cssClass="label-form-white"
+        template="clienteTemplate">
+      </dxi-item>
+
+      <div *dxTemplate="let data of 'dataHoraNotaFiscalTemplate'">
+        <dx-date-box
+          [value]="novaNotaFiscal.dataHoraNotaFiscal"
+          (valueChange)="onDataHoraNotaFiscalCange($event)"
+          displayFormat="dd/MM/yyyy HH:mm"
+          type="datetime"
+          [useMaskBehavior]="true">
+        </dx-date-box>
+      </div>
+
+      <div *dxTemplate="let data of 'clienteTemplate'">
+        <dx-text-box
+          [(value)]="novaNotaFiscal.cliente.codigoCliente"
+          placeholder="Código do Cliente"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+    </dx-form>
+
+    <dx-form [formData]="novoItem">
+
+      <dxi-item
+        dataField="produto"
+        [label]="{text: 'Cód. Prod.'}"
+        cssClass="label-form-white"
+        template="produtoTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="quantidade"
+        [label]="{text: 'Quant.'}"
+        cssClass="label-form-white"
+        template="quantidadeTemplate">
+      </dxi-item>
+
+      <dxi-item
+        dataField="precoUnitario"
+        [label]="{text: 'R$: Unid.'}"
+        cssClass="label-form-white"
+        template="precoUnitarioTemplate">
+      </dxi-item>
+
+      <div *dxTemplate="let data of 'produtoTemplate'">
+        <dx-text-box
+          [(value)]="novoItem.produto.codigoProduto"
+          (valueChange)="atualizarPrecoUnitario($event)"
+          placeholder="Código do Produto"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div *dxTemplate="let data of 'quantidadeTemplate'">
+        <dx-number-box
+          [(value)]="novoItem.quantidade"
+          placeholder="Quantidade do Produto"
+          [step]="1"
+          [showSpinButtons]="true"
+          [showClearButton]="true">
+        </dx-number-box>
+      </div>
+
+      <div *dxTemplate="let data of 'precoUnitarioTemplate'">
+        <dx-number-box
+          [(value)]="novoItem.produto.valorProduto"
+          placeholder="Valor Unitário"
+          [showClearButton]="true">
+        </dx-number-box>
+      </div>
+    </dx-form>
+
+    <dx-button text="Adicionar" type="default" (click)="adicionarItemNota()"></dx-button>
+
+  </div>
+
+  <!-- Grid exibir Itens da Compra -->
+    <div *ngIf="mostrarDataGrid" class="v">
+
+    <label class="fonte">Itens da Compra</label>
+
+      <dx-button class="buttonItensCompraGrid" text="Cadastrar" type="success"></dx-button>
+
+    <dx-data-grid
+      [dataSource]="novaNotaFiscal.itens"
+      [showBorders]="true"
+      [editing]="{ allowDeleting: true, mode: 'row' }"
+      (onRowRemoving)="removerItemNota($event.rowIndex)">
+
+      <dxi-column dataField="produto.codigoProduto" caption="Cód. Produto"></dxi-column>
+      <dxi-column dataField="produto.descricaoProduto" caption="Descrição Produto"></dxi-column>
+      <dxi-column dataField="quantidade" caption="Quantidade"></dxi-column>
+      <dxi-column dataField="precoUnitario" caption="Valor Unitário" dataType="number" format="currency"></dxi-column>
+      <dxi-column caption=" Total Item" [calculateCellValue]="calcularTotalItem" dataType="number" format="currency"></dxi-column>
+
+      <dxi-column type="buttons">
+        <dxi-button icon="trash" [onClick]="removerItemNota"></dxi-button>
+      </dxi-column>
+
+    </dx-data-grid>
+  </div>
+
+</div>
