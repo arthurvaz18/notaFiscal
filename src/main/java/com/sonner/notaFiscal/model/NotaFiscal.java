@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +19,8 @@ public class NotaFiscal {
     private Integer id;
 
     @Column(name = "data_nota_fiscal")
-    @JsonFormat(pattern =  "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataHoraNotaFiscal;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    private OffsetDateTime dataHoraNotaFiscal;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -35,7 +35,7 @@ public class NotaFiscal {
 
     public NotaFiscal() {}
 
-    public NotaFiscal(Integer id, LocalDateTime dataNotaFiscal, Cliente cliente, BigDecimal valorNotaFiscal, List<ItensNota> itens) {
+    public NotaFiscal(Integer id, OffsetDateTime dataNotaFiscal, Cliente cliente, BigDecimal valorNotaFiscal, List<ItensNota> itens) {
         this.id = id;
         this.dataHoraNotaFiscal = dataNotaFiscal;
         this.cliente = cliente;
@@ -51,11 +51,11 @@ public class NotaFiscal {
         this.id = id;
     }
 
-    public LocalDateTime getDataHoraNotaFiscal() {
+    public OffsetDateTime getDataHoraNotaFiscal() {
         return dataHoraNotaFiscal;
     }
 
-    public void setDataHoraNotaFiscal(LocalDateTime dataHoraNotaFiscal) {
+    public void setDataHoraNotaFiscal(OffsetDateTime dataHoraNotaFiscal) {
         this.dataHoraNotaFiscal = dataHoraNotaFiscal;
     }
 

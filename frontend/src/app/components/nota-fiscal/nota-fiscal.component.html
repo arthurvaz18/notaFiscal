@@ -9,7 +9,7 @@
   <!-- Formulário de Cadastro -->
   <div *ngIf="mostrarFormularioCadastro" class="formularioCadastro">
 
-    <dx-form [formData]="novaNotaFiscal">
+    <dx-form [formData]="novaNotaFiscal" [colCount]="3">
 
       <dxi-item
         dataField="dataHoraNotaFiscal"
@@ -19,11 +19,19 @@
       </dxi-item>
 
       <dxi-item
-        dataField="cliente"
+        dataField="cliente.codigoCliente"
         [label]="{text: 'Cod. Cliente'}"
         cssClass="label-form-white"
-        template="clienteTemplate">
+        template="codigoClienteTemplate">
       </dxi-item>
+
+      <dxi-item
+        dataField="cliente.nomeCliente"
+        [label]="{text: 'Cliente'}"
+        cssClass="label-form-white"
+        template="nomeClienteTemplate">
+      </dxi-item>
+
 
       <div *dxTemplate="let data of 'dataHoraNotaFiscalTemplate'">
         <dx-date-box
@@ -35,17 +43,27 @@
         </dx-date-box>
       </div>
 
-      <div *dxTemplate="let data of 'clienteTemplate'">
+      <div *dxTemplate="let data of 'codigoClienteTemplate'">
         <dx-text-box
           [(value)]="novaNotaFiscal.cliente.codigoCliente"
           placeholder="Código do Cliente"
+          (onValueChanged)="buscarClientePorCodigo($event.value)"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div *dxTemplate="let data of 'nomeClienteTemplate'">
+        <dx-text-box
+          [(value)]="novaNotaFiscal.cliente.nomeCliente"
+          placeholder="Nome do Cliente"
+          [disabled]="true"
           [showClearButton]="true">
         </dx-text-box>
       </div>
 
     </dx-form>
 
-    <dx-form [formData]="novoItem">
+    <dx-form [formData]="novoItem" [colCount]="3">
 
       <dxi-item
         dataField="produto"
@@ -55,7 +73,7 @@
       </dxi-item>
 
       <dxi-item
-        dataField="quantidade"
+        dataField="quantidadeProduto"
         [label]="{text: 'Quant.'}"
         cssClass="label-form-white"
         template="quantidadeTemplate">
@@ -79,7 +97,7 @@
 
       <div *dxTemplate="let data of 'quantidadeTemplate'">
         <dx-number-box
-          [(value)]="novoItem.quantidade"
+          [(value)]="novoItem.quantidadeProduto"
           placeholder="Quantidade do Produto"
           [step]="1"
           [showSpinButtons]="true"
@@ -89,8 +107,9 @@
 
       <div *dxTemplate="let data of 'precoUnitarioTemplate'">
         <dx-number-box
-          [(value)]="novoItem.produto.valorProduto"
+          [(value)]="novoItem.precoUnitario"
           placeholder="Valor Unitário"
+          [readOnly]="true"
           [showClearButton]="true">
         </dx-number-box>
       </div>
@@ -101,27 +120,38 @@
   </div>
 
   <!-- Grid exibir Itens da Compra -->
-    <div *ngIf="mostrarDataGrid" class="v">
+  <div *ngIf="mostrarDataGrid" class="v">
 
     <label class="fonte">Itens da Compra</label>
 
-      <dx-button class="buttonItensCompraGrid" text="Cadastrar" type="success"></dx-button>
+    <dx-button class="buttonItensCompraGrid" (click)="cadastrarNotaFiscal()" text="Cadastrar" type="success"></dx-button>
 
     <dx-data-grid
       [dataSource]="novaNotaFiscal.itens"
       [showBorders]="true"
       [editing]="{ allowDeleting: true, mode: 'row' }"
-      (onRowRemoving)="removerItemNota($event.rowIndex)">
+      (onRowRemoving)="removerItemNota($event)">
 
       <dxi-column dataField="produto.codigoProduto" caption="Cód. Produto"></dxi-column>
       <dxi-column dataField="produto.descricaoProduto" caption="Descrição Produto"></dxi-column>
-      <dxi-column dataField="quantidade" caption="Quantidade"></dxi-column>
-      <dxi-column dataField="precoUnitario" caption="Valor Unitário" dataType="number" format="currency"></dxi-column>
-      <dxi-column caption=" Total Item" [calculateCellValue]="calcularTotalItem" dataType="number" format="currency"></dxi-column>
+      <dxi-column dataField="quantidadeProduto" caption="Quantidade"></dxi-column>
+      <dxi-column dataField="totalItem" caption=" Valor Unitário" [calculateCellValue]="calcularTotalItem" dataType="number" format="R$ #,##0.00"></dxi-column>
+      <dxi-column dataField="valorTotal" caption=" Total Item" dataType="number" format="R$ #,##0.00"></dxi-column>
 
       <dxi-column type="buttons">
-        <dxi-button icon="trash" [onClick]="removerItemNota"></dxi-button>
+        <dxi-button name="delete" icon="trash"></dxi-button>
       </dxi-column>
+
+      <dxo-summary>
+        <dxi-total-item
+          column="valorTotal"
+          summaryType="sum"
+          format="R$ #,##00.00"
+          displayFormat="Valor Total: {0}">
+        </dxi-total-item>
+      </dxo-summary>
+
+
 
     </dx-data-grid>
   </div>

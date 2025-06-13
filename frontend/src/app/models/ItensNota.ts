@@ -5,6 +5,7 @@ export interface ItensNota {
   id?: number;
   notaFiscal?: NotaFiscal;  // pode ser opcional para evitar ciclos de referência
   produto: Produto;
-  quantidade: number;
+  quantidadeProduto: number;
+  valorTotal: number;
   precoUnitario: number;
 }

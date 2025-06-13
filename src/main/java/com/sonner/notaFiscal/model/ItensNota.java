@@ -13,7 +13,7 @@ public class ItensNota {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String ordemNota;
+    private Integer ordemNota;
 
     @ManyToOne
     @JoinColumn(name = "produto_id")
@@ -31,7 +31,7 @@ public class ItensNota {
     public ItensNota() {
     }
 
-    public ItensNota(Integer id, String ordemNota, Produto produto, Integer quantidadeProduto, BigDecimal valorTotal, NotaFiscal notaFiscal) {
+    public ItensNota(Integer id, Integer ordemNota, Produto produto, Integer quantidadeProduto, BigDecimal valorTotal, NotaFiscal notaFiscal) {
         this.id = id;
         this.ordemNota = ordemNota;
         this.produto = produto;
@@ -48,13 +48,9 @@ public class ItensNota {
         this.id = id;
     }
 
-    public String getOrdemNota() {
-        return ordemNota;
-    }
+    public Integer getOrdemNota() {return ordemNota;}
 
-    public void setOrdemNota(String ordemNota) {
-        this.ordemNota = ordemNota;
-    }
+    public void setOrdemNota(Integer ordemNota) {this.ordemNota = ordemNota;}
 
     public Produto getProduto() {
         return produto;

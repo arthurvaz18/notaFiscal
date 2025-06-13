@@ -28,15 +28,17 @@ export class NotaFiscalComponent implements OnInit {
     itens: []
   };
 
-  novoItem: ItensNota= {
+  novoItem: ItensNota = {
     produto: {} as Produto,
-    quantidade: 1,
+    quantidadeProduto: 1,
+    valorTotal:0,
     precoUnitario: 0
   }
 
   constructor(private mainService: NotaFiscalService,
               private clienteService: ClienteService,
-              private produtoService: ProdutoService) {}
+              private produtoService: ProdutoService) {
+  }
 
   ngOnInit(): void {
     this.carregarClientes();
@@ -46,6 +48,17 @@ export class NotaFiscalComponent implements OnInit {
   mostrarCamposCadastro() {
     this.mostrarFormularioPesquisa = false;
     this.mostrarFormularioCadastro = !this.mostrarFormularioCadastro;
+    this.mostrarDataGrid = false;
+  }
+
+  buscarClientePorCodigo(codigo: string) {
+    const clienteEncontrado = this.clientes.find(client => client.codigoCliente === codigo);
+
+    if (clienteEncontrado) {
+      this.novaNotaFiscal.cliente.nomeCliente = clienteEncontrado.nomeCliente;
+    } else {
+      this.novaNotaFiscal.cliente.nomeCliente = '';
+    }
   }
 
   carregarClientes() {
@@ -80,7 +93,7 @@ export class NotaFiscalComponent implements OnInit {
     }
   }
 
-  carregarProdutos():void {
+  carregarProdutos(): void {
     this.produtoService.pesquisarProduto().subscribe({
       next: (dados: Produto[]) => {
         this.produtos = dados;
@@ -90,8 +103,6 @@ export class NotaFiscalComponent implements OnInit {
       }
     })
   }
-
-
 
   atualizarPrecoUnitario(codigo: string): void {
     for (let i = 0; i < this.produtos.length; i++) {
@@ -107,16 +118,22 @@ export class NotaFiscalComponent implements OnInit {
     this.novoItem.precoUnitario = 0;
   }
 
-  atualizarValorNota(){
+  atualizarValorNota() {
     this.novaNotaFiscal.valorNotaFiscal = this.calcularValorNota();
   }
 
   adicionarItemNota() {
-    if (this.novoItem.produto && this.novoItem.quantidade > 0 && this.novoItem.precoUnitario > 0) {
-      this.novaNotaFiscal.itens.push({ ...this.novoItem });
+    if (this.novoItem.produto && this.novoItem.quantidadeProduto > 0 && this.novoItem.precoUnitario > 0) {
+      this.novoItem.valorTotal = this.novoItem.quantidadeProduto * this.novoItem.precoUnitario; // calcula total do item
+
+      this.novaNotaFiscal.itens.push({
+        ...this.novoItem,
+      });
+
       this.novoItem = {
         produto: {} as Produto,
-        quantidade: 1,
+        quantidadeProduto: 1,
+        valorTotal: 0,
         precoUnitario: 0
       };
       this.atualizarValorNota();
@@ -126,21 +143,25 @@ export class NotaFiscalComponent implements OnInit {
     }
   }
 
+
   calcularValorNota(): number {
-    return this.novaNotaFiscal.itens.reduce((total, item) => {
-      return total + (item.quantidade * item.precoUnitario);
-    }, 0);
+    return this.novaNotaFiscal.itens.reduce(
+      (total, item) => total + (item.quantidadeProduto * item.precoUnitario),
+      0.0
+    );
   }
 
-  calcularTotalItem = (data: any)=>{
+  calcularTotalItem = (data: any) => {
     return data.quantidade * data.precoUnitario;
   }
 
-  removerItemNota(index: number) {
-    this.novaNotaFiscal.itens.splice(index, 1);
+  removerItemNota(e: any) {
+    const itemParaRemover = e.data;
+    this.novaNotaFiscal.itens = this.novaNotaFiscal.itens.filter(item => item !== itemParaRemover);
     this.atualizarValorNota();
-    this.mostrarDataGrid = false;
+    this.mostrarDataGrid = this.novaNotaFiscal.itens.length > 0;
   }
+
 
 
 }
