@@ -17,9 +17,12 @@ export class NotaFiscalComponent implements OnInit {
   mostrarFormularioCadastro = false;
   mostrarFormularioPesquisa = false;
   mostrarDataGrid = false;
+  mostrarDataGridPesquisa = false;
+
 
   clientes: Cliente[] = [];
   produtos: Produto[] = [];
+  notasFiscaisEncontradas: NotaFiscal[] = [];
 
   novaNotaFiscal: NotaFiscal = {
     dataHoraNotaFiscal: new Date(),
@@ -31,9 +34,11 @@ export class NotaFiscalComponent implements OnInit {
   novoItem: ItensNota = {
     produto: {} as Produto,
     quantidadeProduto: 1,
-    valorTotal:0,
+    valorTotal: 0,
     precoUnitario: 0
   }
+
+  filtroIdNotaFiscal: number = 0;
 
   constructor(private mainService: NotaFiscalService,
               private clienteService: ClienteService,
@@ -49,6 +54,10 @@ export class NotaFiscalComponent implements OnInit {
     this.mostrarFormularioPesquisa = false;
     this.mostrarFormularioCadastro = !this.mostrarFormularioCadastro;
     this.mostrarDataGrid = false;
+  }
+
+  mostrarCamposPesquisa(): void {
+    this.mostrarFormularioPesquisa = !this.mostrarFormularioPesquisa;
   }
 
   buscarClientePorCodigo(codigo: string) {
@@ -72,8 +81,9 @@ export class NotaFiscalComponent implements OnInit {
     })
   }
 
-
   cadastrarNotaFiscal(): void {
+    this.novaNotaFiscal.dataHoraNotaFiscal = new Date(this.novaNotaFiscal.dataHoraNotaFiscal);
+    console.log('Data que será enviada:', this.novaNotaFiscal.dataHoraNotaFiscal);
     this.mainService.criarNotaFiscal(this.novaNotaFiscal).subscribe({
       next: () => {
         this.novaNotaFiscal = {dataHoraNotaFiscal: new Date(), cliente: new Cliente(), valorNotaFiscal: 0, itens: []};
@@ -143,7 +153,6 @@ export class NotaFiscalComponent implements OnInit {
     }
   }
 
-
   calcularValorNota(): number {
     return this.novaNotaFiscal.itens.reduce(
       (total, item) => total + (item.quantidadeProduto * item.precoUnitario),
@@ -162,6 +171,16 @@ export class NotaFiscalComponent implements OnInit {
     this.mostrarDataGrid = this.novaNotaFiscal.itens.length > 0;
   }
 
+  buscarNotaPorId():void{
+    this.mainService.buscarNotaPorId(this.filtroIdNotaFiscal).subscribe({
+      next: (notas)=> {
+        console.log('Produtos recebidos:', notas);
+        this.notasFiscaisEncontradas = [notas];
+      },
+      error: (erro) => console.error("Erro ao pesquisar Produto", erro)
+    });
+    this.mostrarDataGridPesquisa = true;
+  }
 
 
 }

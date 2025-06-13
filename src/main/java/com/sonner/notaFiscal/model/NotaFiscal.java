@@ -19,7 +19,7 @@ public class NotaFiscal {
     private Integer id;
 
     @Column(name = "data_nota_fiscal")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
     private OffsetDateTime dataHoraNotaFiscal;
 
     @ManyToOne

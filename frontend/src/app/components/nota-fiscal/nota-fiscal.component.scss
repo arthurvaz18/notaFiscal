@@ -36,6 +36,15 @@
   max-width: 900px;
   margin: 0 auto 15px auto;
 }
+.formularioPesquisa{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .buttonItensCompraGrid {
   display: flex;

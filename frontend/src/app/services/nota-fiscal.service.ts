@@ -14,4 +14,7 @@ export class NotaFiscalService {
   criarNotaFiscal(notaFiscal: NotaFiscal): Observable<NotaFiscal>{
     return this.http.post<NotaFiscal>(this.baseUrl, notaFiscal);
   }
+  buscarNotaPorId(id: number): Observable<NotaFiscal>{
+    return this.http.get<NotaFiscal>(`${this.baseUrl}/${id}`);
+  }
 }
