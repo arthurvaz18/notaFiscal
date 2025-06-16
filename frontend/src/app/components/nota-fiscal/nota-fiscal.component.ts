@@ -16,15 +16,35 @@ export class NotaFiscalComponent implements OnInit {
 
   mostrarFormularioCadastro = false;
   mostrarFormularioPesquisa = false;
+  mostrarAtualizarCampos = false;
   mostrarDataGrid = false;
   mostrarDataGridPesquisa = false;
+
+  notaParaDeletar: NotaFiscal | null = null;
+
+
+
+  itensEdit: ItensNota = {
+    produto: {} as Produto,
+    quantidadeProduto: 1,
+    valorTotal: 0,
+    precoUnitario: 0
+  }
 
 
   clientes: Cliente[] = [];
   produtos: Produto[] = [];
   notasFiscaisEncontradas: NotaFiscal[] = [];
+  itensEncontrados: ItensNota[] = [];
 
   novaNotaFiscal: NotaFiscal = {
+    dataHoraNotaFiscal: new Date(),
+    cliente: new Cliente(),
+    valorNotaFiscal: 0,
+    itens: []
+  };
+
+  notaParaAtualizar: NotaFiscal = {
     dataHoraNotaFiscal: new Date(),
     cliente: new Cliente(),
     valorNotaFiscal: 0,
@@ -54,10 +74,12 @@ export class NotaFiscalComponent implements OnInit {
     this.mostrarFormularioPesquisa = false;
     this.mostrarFormularioCadastro = !this.mostrarFormularioCadastro;
     this.mostrarDataGrid = false;
+    this.mostrarDataGridPesquisa = false;
   }
 
   mostrarCamposPesquisa(): void {
     this.mostrarFormularioPesquisa = !this.mostrarFormularioPesquisa;
+    this.mostrarFormularioCadastro = false;
   }
 
   buscarClientePorCodigo(codigo: string) {
@@ -95,7 +117,7 @@ export class NotaFiscalComponent implements OnInit {
     })
   }
 
-  onDataHoraNotaFiscalCange(dataHora: Date | number | string) {
+  onDataHoraNotaFiscalChange(dataHora: Date | number | string) {
     if (dataHora instanceof Date) {
       this.novaNotaFiscal.dataHoraNotaFiscal = dataHora;
     } else {
@@ -160,20 +182,18 @@ export class NotaFiscalComponent implements OnInit {
     );
   }
 
-  calcularTotalItem = (data: any) => {
-    return data.quantidade * data.precoUnitario;
-  }
-
   removerItemNota(e: any) {
-    const itemParaRemover = e.data;
-    this.novaNotaFiscal.itens = this.novaNotaFiscal.itens.filter(item => item !== itemParaRemover);
+    const codigoParaRemover = e.data.produto.codigoProduto;
+
+    this.novaNotaFiscal.itens = this.novaNotaFiscal.itens.filter(item => item.produto.codigoProduto !== codigoParaRemover);
+
     this.atualizarValorNota();
     this.mostrarDataGrid = this.novaNotaFiscal.itens.length > 0;
   }
 
-  buscarNotaPorId():void{
+  buscarNotaPorId(): void {
     this.mainService.buscarNotaPorId(this.filtroIdNotaFiscal).subscribe({
-      next: (notas)=> {
+      next: (notas) => {
         console.log('Produtos recebidos:', notas);
         this.notasFiscaisEncontradas = [notas];
       },
@@ -182,5 +202,47 @@ export class NotaFiscalComponent implements OnInit {
     this.mostrarDataGridPesquisa = true;
   }
 
+  editarNotaFiscal = (e: any): void => {
+    this.notaParaAtualizar = {...e.row.data};
+    this.mostrarFormularioCadastro = true;
+    this.mostrarFormularioPesquisa = false;
+    this.itensEdit = { ...e.row.data };
+    this.mostrarAtualizarCampos = true;
+  }
+
+  atualizaNotaFsical(): void {
+    // Localiza o índice do item a ser atualizado no array de itens da nota
+    const index = this.novaNotaFiscal.itens.findIndex(
+      item => item.produto.codigoProduto === this.itensEdit.produto.codigoProduto
+    );
+
+    if (index !== -1) {
+      this.itensEdit.valorTotal = this.itensEdit.quantidadeProduto * this.itensEdit.precoUnitario;
+      this.novaNotaFiscal.itens[index] = { ...this.itensEdit };
+      this.novaNotaFiscal.itens = [...this.novaNotaFiscal.itens];
+      this.atualizarValorNota();
+    }
+    this.mostrarAtualizarCampos = false;
+  }
+
+
+  deletarNotaFiscal(event: any): void {
+    const nota = event.data;
+    const confirmacao = confirm(`Tem certeza que deseja excluir a nota fiscal de ID ${nota.id}?`);
+    if (!confirmacao) {
+      event.cancel = true;
+      return;
+    }
+    this.mainService.deletarNotaFiscal(nota.id).subscribe({
+      next: () => {
+        alert('Nota fiscal excluída com sucesso.');
+        this.notasFiscaisEncontradas = this.notasFiscaisEncontradas.filter(nf => nf.id !== nota.id);
+      },
+      error: (erro) => {
+        console.error("Erro ao excluir nota fiscal", erro);
+        alert("Erro ao tentar excluir a nota fiscal.");
+      }
+    });
+  }
 
 }

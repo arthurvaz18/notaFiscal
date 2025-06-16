@@ -40,7 +40,7 @@
       <div *dxTemplate="let data of 'dataHoraNotaFiscalTemplate'">
         <dx-date-box
           [value]="novaNotaFiscal.dataHoraNotaFiscal"
-          (valueChange)="onDataHoraNotaFiscalCange($event)"
+          (valueChange)="onDataHoraNotaFiscalChange($event)"
           displayFormat="dd/MM/yyyy HH:mm"
           type="datetime"
           [useMaskBehavior]="true">
@@ -139,12 +139,12 @@
 
       <dxi-column dataField="produto.codigoProduto" caption="Cód. Produto"></dxi-column>
       <dxi-column dataField="produto.descricaoProduto" caption="Descrição Produto"></dxi-column>
-      <dxi-column dataField="quantidadeProduto" caption="Quantidade"></dxi-column>
-      <dxi-column dataField="totalItem" caption=" Valor Unitário" [calculateCellValue]="calcularTotalItem"
-                  dataType="number" format="R$ #,##0.00"></dxi-column>
+      <dxi-column dataField="quantidadeProduto" caption="Quantidade" [allowEditing]="true"></dxi-column>
+      <dxi-column dataField="precoUnitario" caption=" Valor Unitário" format="R$ #,##0.00"></dxi-column>
       <dxi-column dataField="valorTotal" caption=" Total Item" dataType="number" format="R$ #,##0.00"></dxi-column>
 
       <dxi-column type="buttons">
+        <dxi-button name="atualizar" icon="edit" [onClick]="editarNotaFiscal"></dxi-button>
         <dxi-button name="delete" icon="trash"></dxi-button>
       </dxi-column>
 
@@ -157,8 +157,35 @@
         </dxi-total-item>
       </dxo-summary>
 
-
     </dx-data-grid>
+
+    <div *ngIf="mostrarAtualizarCampos" class="resultadoProdutos" style="margin-top: 20px;">
+
+      <dx-form [formData]="itensEdit">
+
+        <dxi-item
+          dataField="quantidadeProduto"
+          [label]="{text: 'Quantidade Prod.'}"
+          cssClass="label-form-white"
+          template="quantidadeProdutoTemplate">
+        </dxi-item>
+
+        <div *dxTemplate="let data of 'quantidadeProdutoTemplate'">
+          <dx-number-box
+            [(value)]="itensEdit.quantidadeProduto"
+            placeholder="Quantidade do Produto"
+            [step]="1"
+            [showSpinButtons]="true"
+            [showClearButton]="true">
+          </dx-number-box>
+        </div>
+      </dx-form>
+
+      <div style="margin-top: 10px; display: flex; gap: 10px;">
+        <dx-button type="success" text="ATUALIZAR" (onClick)="atualizaNotaFsical()"></dx-button>
+        <dx-button type="danger" text="CANCELAR"></dx-button>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="mostrarFormularioPesquisa" class="formularioPesquisa">
@@ -183,37 +210,49 @@
 
   </div>
 
-  <div *ngIf="notasFiscaisEncontradas.length > 0" class="resultadoProdutos" style="margin-top: 20px; color: white;">
-    <label class="fonte">Notas Fiscais Encontradas</label>
+  <div *ngIf="mostrarDataGridPesquisa">
+    <div *ngIf="notasFiscaisEncontradas.length > 0" class="resultadoProdutos" style="margin-top: 20px; color: white;">
+      <label class="fonte">Notas Fiscais Encontradas</label>
 
-    <dx-data-grid [dataSource]="notasFiscaisEncontradas"
-                  [showBorders]="true"
-                  [columnAutoWidth]="true"
-                  [rowAlternationEnabled]="true">
+      <dx-data-grid [dataSource]="notasFiscaisEncontradas"
+                    [showBorders]="true"
+                    [columnAutoWidth]="true"
+                    [rowAlternationEnabled]="true"
+                    [editing]="{ allowDeleting: true, mode: 'row' }"
+                    (onRowRemoving)="deletarNotaFiscal($event)">
 
-      <dxo-paging [pageSize]="5"></dxo-paging>
-      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,20]" [showInfo]="true"></dxo-pager>
+        <dxo-paging [pageSize]="5"></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,20]" [showInfo]="true"></dxo-pager>
 
 
-      <dxi-column dataField="id" alignment="left" caption="id Nota Fscal"></dxi-column>
-      <dxi-column dataField="dataHoraNotaFiscal" caption="Data" alignment="center"
-                  cellTemplate="dataNotaFiscalCellTemplate"></dxi-column>
-      <dxi-column dataField="dataHoraNotaFiscal" caption="Hora" alignment="center"
-                  cellTemplate="HoraNotaFiscalCellTemplate"></dxi-column>
-      <dxi-column dataField="cliente.codigoCliente" alignment="" caption="Código do Cliente"></dxi-column>
-      <dxi-column dataField="cliente.nomeCliente" alignment="" caption="Nome do Cliente"></dxi-column>
-      <dxi-column dataField="valorNotaFiscal" alignment="" caption="Valor Total"></dxi-column>
+        <dxi-column dataField="id" alignment="left" caption="id Nota Fscal"></dxi-column>
+        <dxi-column dataField="dataHoraNotaFiscal" caption="Data" alignment="center"
+                    cellTemplate="dataNotaFiscalCellTemplate"></dxi-column>
+        <dxi-column dataField="dataHoraNotaFiscal" caption="Hora" alignment="center"
+                    cellTemplate="HoraNotaFiscalCellTemplate"></dxi-column>
+        <dxi-column dataField="cliente.codigoCliente" alignment="" caption="Código do Cliente"></dxi-column>
+        <dxi-column dataField="cliente.nomeCliente" alignment="" caption="Nome do Cliente"></dxi-column>
+        <dxi-column dataField="valorNotaFiscal" alignment="" caption="Valor Total" format="R$ #,##0.00"></dxi-column>
 
-      <!--Data-->
-      <div *dxTemplate="let data of 'dataNotaFiscalCellTemplate'">
-        {{ data.data.dataHoraNotaFiscal | date: 'dd/MM/yyyy' }}
-      </div>
-      <!--Hora-->
-      <div *dxTemplate="let data of 'HoraNotaFiscalCellTemplate'">
-        {{ data.data.dataHoraNotaFiscal | date: 'HH:mm:ss' }}
-      </div>
+        <dxi-column type="buttons">
+          <dxi-button name="delete" icon="trash"></dxi-button>
+        </dxi-column>
 
-    </dx-data-grid>
+        <!--Data-->
+        <div *dxTemplate="let data of 'dataNotaFiscalCellTemplate'">
+          {{ data.data.dataHoraNotaFiscal | date: 'dd/MM/yyyy' }}
+        </div>
+        <!--Hora-->
+        <div *dxTemplate="let data of 'HoraNotaFiscalCellTemplate'">
+          {{ data.data.dataHoraNotaFiscal | date: 'HH:mm:ss' }}
+        </div>
 
+        <div *dxTemplate="let data of 'codigoProdutoCellTemplate'">
+          {{ data.data.codigoProduto }}
+        </div>
+      </dx-data-grid>
+
+    </div>
   </div>
+
 </div>
