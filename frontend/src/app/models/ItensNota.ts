@@ -3,7 +3,7 @@ import {Produto} from "./produto";
 
 export interface ItensNota {
   id?: number;
-  notaFiscal?: NotaFiscal;  // pode ser opcional para evitar ciclos de referência
+  notaFiscal?: NotaFiscal;
   produto: Produto;
   quantidadeProduto: number;
   valorTotal: number;

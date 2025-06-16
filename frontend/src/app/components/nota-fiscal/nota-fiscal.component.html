@@ -196,15 +196,21 @@
 
 
       <dxi-column dataField="id" alignment="left" caption="id Nota Fscal"></dxi-column>
-      <dxi-column dataField="dataHoraNotaFiscal" caption="Data Hora" [cellTemplate]="'dataHoraNotaFiscalCellTemplate'"></dxi-column>
+      <dxi-column dataField="dataHoraNotaFiscal" caption="Data" alignment="center"
+                  cellTemplate="dataNotaFiscalCellTemplate"></dxi-column>
+      <dxi-column dataField="dataHoraNotaFiscal" caption="Hora" alignment="center"
+                  cellTemplate="HoraNotaFiscalCellTemplate"></dxi-column>
       <dxi-column dataField="cliente.codigoCliente" alignment="" caption="Código do Cliente"></dxi-column>
       <dxi-column dataField="cliente.nomeCliente" alignment="" caption="Nome do Cliente"></dxi-column>
       <dxi-column dataField="valorNotaFiscal" alignment="" caption="Valor Total"></dxi-column>
-      <dxi-column dataField="itens.produto.descricaoProduto" alignment="" caption="Cod.Prod."></dxi-column>
-      <dxi-column dataField="" alignment="" caption=""></dxi-column>
 
-      <div *dxTemplate="let cellData of 'dataHoraNotaFiscalCellTemplate'">
-        {{ cellData.data.dataHoraNotaFiscal | date: 'dd/MM/yyyy HH:mm' }}
+      <!--Data-->
+      <div *dxTemplate="let data of 'dataNotaFiscalCellTemplate'">
+        {{ data.data.dataHoraNotaFiscal | date: 'dd/MM/yyyy' }}
+      </div>
+      <!--Hora-->
+      <div *dxTemplate="let data of 'HoraNotaFiscalCellTemplate'">
+        {{ data.data.dataHoraNotaFiscal | date: 'HH:mm:ss' }}
       </div>
 
     </dx-data-grid>
