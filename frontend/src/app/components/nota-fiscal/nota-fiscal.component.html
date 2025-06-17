@@ -124,7 +124,7 @@
   </div>
 
   <!-- Grid exibir Itens da Compra -->
-  <div *ngIf="mostrarDataGrid" class="v">
+  <div *ngIf="mostrarDataGridCadastro" class="v">
 
     <label class="fonte">Itens da Compra</label>
 
@@ -134,7 +134,10 @@
     <dx-data-grid
       [dataSource]="novaNotaFiscal.itens"
       [showBorders]="true"
-      [editing]="{ allowDeleting: true, mode: 'row' }"
+      [editing]="{ allowDeleting: true, mode: 'row', confirmDelete: true,
+                      texts:{
+                          confirmDeleteMessage: 'Deseja deletar este item da nota fiscal?'
+                      }}"
       (onRowRemoving)="removerItemNota($event)">
 
       <dxi-column dataField="produto.codigoProduto" caption="Cód. Produto"></dxi-column>
@@ -218,21 +221,89 @@
                     [showBorders]="true"
                     [columnAutoWidth]="true"
                     [rowAlternationEnabled]="true"
-                    [editing]="{ allowDeleting: true, mode: 'row' }"
+                    [editing]="{ allowDeleting: true, mode: 'row', confirmDelete: true,
+                      texts:{
+                          confirmDeleteMessage: 'Tem certeza que deseja deletar esta nota fiscal?'
+                      }}"
+                    [scrolling]="{ mode: 'standard', columnRenderingMode: 'virtual' }"
                     (onRowRemoving)="deletarNotaFiscal($event)">
 
         <dxo-paging [pageSize]="5"></dxo-paging>
         <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5,10,20]" [showInfo]="true"></dxo-pager>
 
 
-        <dxi-column dataField="id" alignment="left" caption="id Nota Fscal"></dxi-column>
-        <dxi-column dataField="dataHoraNotaFiscal" caption="Data" alignment="center"
-                    cellTemplate="dataNotaFiscalCellTemplate"></dxi-column>
-        <dxi-column dataField="dataHoraNotaFiscal" caption="Hora" alignment="center"
-                    cellTemplate="HoraNotaFiscalCellTemplate"></dxi-column>
-        <dxi-column dataField="cliente.codigoCliente" alignment="" caption="Código do Cliente"></dxi-column>
-        <dxi-column dataField="cliente.nomeCliente" alignment="" caption="Nome do Cliente"></dxi-column>
-        <dxi-column dataField="valorNotaFiscal" alignment="" caption="Valor Total" format="R$ #,##0.00"></dxi-column>
+        <dxi-column
+          dataField="id"
+          caption="id"
+          alignment="left"
+          width="40px">
+        </dxi-column>
+
+        <dxi-column
+          dataField="dataHoraNotaFiscal"
+          caption="Data"
+          alignment="center"
+          cellTemplate="dataNotaFiscalCellTemplate"
+          width="90px">
+        </dxi-column>
+
+        <dxi-column
+          dataField="dataHoraNotaFiscal"
+          caption="Hora"
+          alignment="center"
+          cellTemplate="HoraNotaFiscalCellTemplate"
+          width="90px">
+        </dxi-column>
+
+        <dxi-column
+          dataField="cliente.codigoCliente"
+          caption="Cód.Cliente"
+          alignment="center"
+          width="90">
+        </dxi-column>
+
+        <dxi-column
+          dataField="cliente.nomeCliente"
+          caption="Nome do Cliente"
+          alignment="">
+        </dxi-column>
+
+        <dxi-column
+          caption="Nome Prod."
+          cellTemplate="descricaoProdutoCellTemplate">
+        </dxi-column>
+
+        <dxi-column
+          caption="Cód. Prod"
+          cellTemplate="codigoProdutoCellTemplate"
+          width="90">
+        </dxi-column>
+
+        <dxi-column
+          caption="Preço Unit."
+          cellTemplate="precoUnitarioCellTemplate"
+          alignment=""
+          width="100px">
+        </dxi-column>
+
+        <dxi-column
+          caption="Quant. Prod"
+          alignment=""
+          cellTemplate="quantidadeProdutoCellTemplate">
+        </dxi-column>
+
+        <dxi-column
+          caption="Total Prod"
+          cellTemplate="produtosDaNotaCellTemplate">
+        </dxi-column>
+
+        <dxi-column
+          dataField="valorNotaFiscal"
+          caption="Valor Total"
+          alignment=""
+          format="R$ #,##0.00">
+        </dxi-column>
+
 
         <dxi-column type="buttons">
           <dxi-button name="delete" icon="trash"></dxi-button>
@@ -248,8 +319,37 @@
         </div>
 
         <div *dxTemplate="let data of 'codigoProdutoCellTemplate'">
-          {{ data.data.codigoProduto }}
+          <div *ngFor="let item of data.data.itens" class="produtoLinha">
+            {{ item.produto?.codigoProduto || '---' }}
+          </div>
         </div>
+
+        <div *dxTemplate="let data of 'descricaoProdutoCellTemplate'">
+          <div *ngFor="let item of data.data.itens" class="produtoLinha">
+            {{ item.produto?.descricaoProduto || '---' }}
+          </div>
+        </div>
+
+        <div *dxTemplate="let data of 'quantidadeProdutoCellTemplate'">
+          <div *ngFor="let item of data.data.itens" class="produtoLinha">
+            {{ item.quantidadeProduto ?? '---' }}
+          </div>
+        </div>
+
+
+        <div *dxTemplate="let data of 'precoUnitarioCellTemplate'">
+          <div *ngFor="let item of data.data.itens" class="produtoLinha">
+            {{ item.produto?.valorProduto | currency:'BRL':'symbol-narrow':'1.2-2' }}
+          </div>
+        </div>
+
+
+        <div *dxTemplate="let data of 'produtosDaNotaCellTemplate'">
+          <div *ngFor="let item of data.data.itens" class="produtoLinha">
+             R$ {{ item.valorTotal | number: '1.2-2' }}
+          </div>
+        </div>
+
       </dx-data-grid>
 
     </div>

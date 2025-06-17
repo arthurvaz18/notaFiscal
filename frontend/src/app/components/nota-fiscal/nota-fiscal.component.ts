@@ -17,10 +17,9 @@ export class NotaFiscalComponent implements OnInit {
   mostrarFormularioCadastro = false;
   mostrarFormularioPesquisa = false;
   mostrarAtualizarCampos = false;
-  mostrarDataGrid = false;
+  mostrarDataGridCadastro = false;
   mostrarDataGridPesquisa = false;
 
-  notaParaDeletar: NotaFiscal | null = null;
 
 
 
@@ -35,7 +34,6 @@ export class NotaFiscalComponent implements OnInit {
   clientes: Cliente[] = [];
   produtos: Produto[] = [];
   notasFiscaisEncontradas: NotaFiscal[] = [];
-  itensEncontrados: ItensNota[] = [];
 
   novaNotaFiscal: NotaFiscal = {
     dataHoraNotaFiscal: new Date(),
@@ -73,13 +71,14 @@ export class NotaFiscalComponent implements OnInit {
   mostrarCamposCadastro() {
     this.mostrarFormularioPesquisa = false;
     this.mostrarFormularioCadastro = !this.mostrarFormularioCadastro;
-    this.mostrarDataGrid = false;
+    this.mostrarDataGridCadastro = false;
     this.mostrarDataGridPesquisa = false;
   }
 
   mostrarCamposPesquisa(): void {
     this.mostrarFormularioPesquisa = !this.mostrarFormularioPesquisa;
     this.mostrarFormularioCadastro = false;
+    this.mostrarDataGridCadastro = false;
   }
 
   buscarClientePorCodigo(codigo: string) {
@@ -169,7 +168,7 @@ export class NotaFiscalComponent implements OnInit {
         precoUnitario: 0
       };
       this.atualizarValorNota();
-      this.mostrarDataGrid = true;
+      this.mostrarDataGridCadastro = true;
     } else {
       alert('Preencha todos os campos do item corretamente.');
     }
@@ -188,7 +187,7 @@ export class NotaFiscalComponent implements OnInit {
     this.novaNotaFiscal.itens = this.novaNotaFiscal.itens.filter(item => item.produto.codigoProduto !== codigoParaRemover);
 
     this.atualizarValorNota();
-    this.mostrarDataGrid = this.novaNotaFiscal.itens.length > 0;
+    this.mostrarDataGridCadastro = this.novaNotaFiscal.itens.length > 0;
   }
 
   buscarNotaPorId(): void {
@@ -196,6 +195,7 @@ export class NotaFiscalComponent implements OnInit {
       next: (notas) => {
         console.log('Produtos recebidos:', notas);
         this.notasFiscaisEncontradas = [notas];
+        console.log(this.notasFiscaisEncontradas);
       },
       error: (erro) => console.error("Erro ao pesquisar Produto", erro)
     });
