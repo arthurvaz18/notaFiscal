@@ -243,16 +243,7 @@
           dataField="dataHoraNotaFiscal"
           caption="Data"
           alignment="center"
-          cellTemplate="dataNotaFiscalCellTemplate"
-          width="90px">
-        </dxi-column>
-
-        <dxi-column
-          dataField="dataHoraNotaFiscal"
-          caption="Hora"
-          alignment="center"
-          cellTemplate="HoraNotaFiscalCellTemplate"
-          width="90px">
+          cellTemplate="dataNotaFiscalCellTemplate">
         </dxi-column>
 
         <dxi-column
@@ -309,13 +300,9 @@
           <dxi-button name="delete" icon="trash"></dxi-button>
         </dxi-column>
 
-        <!--Data-->
+        <!--Data/hora-->
         <div *dxTemplate="let data of 'dataNotaFiscalCellTemplate'">
-          {{ data.data.dataHoraNotaFiscal | date: 'dd/MM/yyyy' }}
-        </div>
-        <!--Hora-->
-        <div *dxTemplate="let data of 'HoraNotaFiscalCellTemplate'">
-          {{ data.data.dataHoraNotaFiscal | date: 'HH:mm:ss' }}
+          {{ data.data.dataHoraNotaFiscal | date: 'dd/MM/yyyy HH:mm:ss' }}
         </div>
 
         <div *dxTemplate="let data of 'codigoProdutoCellTemplate'">
